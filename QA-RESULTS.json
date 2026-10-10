@@ -1,0 +1,40 @@
+{
+  "revision": "20261010-r3",
+  "scope": "Six website pages, Chinese and English, desktop and mobile",
+  "reference_mapping": {
+    "index": "User image 1; Figma 764:307 for navigation structure",
+    "products": "User image 2; Figma 817:390 and 817:543 for product and consultation flow",
+    "about": "User image 3; Figma 817:902 for section relationships",
+    "technology": "User images 5 and 4; Figma 817:752 for capability flow",
+    "solutions": "Figma 817:644: task-first hero, four scenes, five delivery stages, CTA",
+    "contact": "Figma 817:1168: request form; local brief download instead of unavailable server submission"
+  },
+  "browser_checks": {
+    "chinese_unique_link_targets_clicked": 59,
+    "english_unique_link_targets_clicked": 59,
+    "language_round_trips": "All six pages, desktop and 390px mobile",
+    "product_buttons": "Four products and three task selectors show matching product",
+    "product_consultation": "Selected product carried to request form",
+    "product_dropdown": "All four products, keyboard access, correct anchors",
+    "flywheel": "All five nodes update their corresponding caption",
+    "form": "Four required fields validated; language switch preserves draft; actual English brief download verified with Titan",
+    "history": "Back, forward, reload and product anchors retain page and language",
+    "mobile": "All six pages in both languages; menu closes after navigation; no horizontal overflow after cache fix",
+    "console_errors": 0
+  },
+  "fixes": [
+    "Immediate client-side navigation and language switching, with standalone HTML fallback",
+    "Content-fingerprinted JavaScript and CSS to prevent stale resource reuse",
+    "Product and scenario consultation context retained",
+    "Architecture links target related scenes and capability sections",
+    "English architecture text no longer overlaps artwork",
+    "Solutions layout and five-step delivery content reconciled with Figma"
+  ],
+  "boundaries": [
+    "Five user reference images take precedence where older Figma robot imagery or copy differs",
+    "Reference values use maximum payload, not older Figma whole-robot weight labels",
+    "Product details remain interactive dialogs in this six-page implementation",
+    "No live appointment submission backend or official downloadable specification PDFs were supplied; request briefs are local downloads",
+    "Raster reference artwork and reconstructed homepage background are not pixel-identical editable Figma layers"
+  ]
+}

@@ -6,9 +6,9 @@
 
 | 页面 | 参考 | 实现 |
 |---|---|---|
-| `dist/index.html` | 图 1 | 首页首屏、产品入口 |
+| `dist/index.html` | 图 1 + 公司介绍 | 首页首屏、公司价值、能力平台、应用场景、产品入口 |
 | `dist/products.html` | 图 2 | 四款产品卡片、参数、任务入口、产品详情弹窗 |
-| `dist/about.html` | 图 3 | 品牌主张、三项原则、发展路径 |
+| `dist/about.html` | 图 3 + 公司介绍 | 公司定位、全栈研发、现场反馈、行业交付与愿景 |
 | `dist/technology.html` | 图 5 + 图 4 | 能力链、技术架构、可点击的数据飞轮 |
 | `dist/solutions.html` | Figma 解决方案 | 工业巡检、应急作业、科研教育、系统集成 |
 | `dist/contact.html` | Figma 预约流程 | 需求单表单与本地下载 |

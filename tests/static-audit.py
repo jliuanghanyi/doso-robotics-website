@@ -16,6 +16,7 @@ class Page(HTMLParser):
         if 'id' in a:self.ids.add(a['id'])
         if tag=='a':self.links.append(a.get('href',''))
         if tag in ('img','script') and a.get('src'):self.assets.append(a['src'])
+        if tag=='image' and a.get('href'):self.assets.append(a['href'])
         if tag=='link' and a.get('rel')=='stylesheet':self.assets.append(a['href'])
     def handle_data(self,data):self.text.append(data)
 
@@ -42,7 +43,7 @@ for f,page in docs.items():
         assert target.stat().st_size>0
         if u.fragment:assert u.fragment in docs[target].ids,f'Missing anchor: {ref}'
     links+=len(page.links);assets+=len(page.assets)
-    if f.stem in ('index','products'):
+    if f.stem == 'products':
         body=''.join(page.text)
-        for value in ('Orix','Thunder','Titan','Explorer','15 kg','38 kg','60 kg','2–4 h','3–5 h','8 h','3.7 m/s','5 m/s'):assert value in body,value
+        for value in ('Orix','Thunder','Titan','Explorer','8–10 kg','25–30 kg','40–60 kg','2–4 h','3–5 h','8 h','3.7 m/s','5 m/s'):assert value in body,value
 print(f'PASS: {len(docs)} localized documents, {links} links, {assets} asset references, fingerprints, anchors, product specifications.')

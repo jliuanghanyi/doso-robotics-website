@@ -84,7 +84,7 @@ return `<section class="solution-hero section"><div><p class="eyebrow">02 / SOLU
 function contact(){return `<section class="section contact"><div><p class="eyebrow">LET’S BUILD SOMETHING REAL</p><h1>${t('把真实任务带来，<br>一起定义交付方案。','Bring a real task.<br>Define the solution together.')}</h1><p class="lead">${t('告诉我们场景、环境和目标，整理你的产品与验证需求。','Describe your scenario, environment and objective.')}</p><p class="contact-note">${t('当前为网页演示版。填写后可下载需求单，方便与 DOSO 团队沟通；不会自动发送或提交预约。','This is a website demo. Download your brief to share with the DOSO team. No booking is sent automatically.')}</p></div><form id="demo-form"><h2>${t('预约产品与方案演示','Prepare a demo request')}</h2><label>${t('姓名','Name')}<input name="name" autocomplete="name" required maxlength="80"></label><label>${t('公司 / 机构','Company / institution')}<input name="company" autocomplete="organization" required maxlength="120"></label><label>${t('邮箱或电话','Email or phone')}<input name="contact" required maxlength="120"></label><label>${t('关注产品','Product of interest')}<select name="product"><option value="">${t('暂不确定，请协助选型','Help me choose')}</option>${products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></label><label>${t('任务与场景','Task and scenario')}<textarea name="task" rows="4" required maxlength="2000" placeholder="${t('例如：工业园区巡检、设备识别、科研开发……','Describe your task and environment…')}"></textarea></label><button class="button" type="submit">${t('生成并下载需求单','Download request brief')} <span>↓</span></button><p id="form-status" role="status"></p></form></section>`}
 document.documentElement.lang=EN?'en':'zh-CN';
 document.documentElement.dataset.page=route;
-document.documentElement.dataset.version='20261012-r8';
+document.documentElement.dataset.version='20261012-r9';
 const pageTitles={'index.html':t('首页','Home'),'products.html':t('产品矩阵','Product matrix'),'technology.html':t('技术能力与系统架构','Technology & architecture'),'about.html':t('关于 DOSO','About DOSO'),'solutions.html':t('解决方案','Solutions'),'contact.html':t('联系与演示需求','Contact & demo')};
 document.title='DOSO Robotics｜'+pageTitles[route];
 document.body.className='page-'+(route.replace('.html',''))+(EN?' english':'');
@@ -169,3 +169,4 @@ if (typeof __BUILD__ !== 'undefined') {
   });
   window.addEventListener('popstate',()=>{const target=new URL(location.href);const next=readRoute(target);if(next){const destination=canonical(next,target);history.replaceState({},'',destination.pathname+destination.search+destination.hash);show(next);}});
 }
+

@@ -188,3 +188,52 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
  .platform-overview .platform-stack h3{font-size:18px;margin-bottom:5px}
  .platform-overview .platform-stack p{font-size:13px;line-height:1.6}
 }
+
+/* Keep the application-to-platform story continuous, with aligned compact rows. */
+.page-index .editorial-section{padding-inline:5.25%}
+.page-index .company-overview{padding-block:60px}
+.page-index .home-applications{padding-top:56px;padding-bottom:32px}
+.application-pair>a{display:flex;flex-direction:column}
+.application-pair>a>div{display:flex;flex-direction:column;flex:1}
+.application-pair a span{margin-top:auto;padding-top:24px}
+.page-index .product-gateway{display:block;background:#f4f9ff;padding-top:0;padding-bottom:56px}
+.product-gateway>div:first-child{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:36px;align-items:start;border-top:1px solid #d6e4f2;padding-top:32px;margin-bottom:26px}
+.product-gateway>div>.eyebrow,.product-gateway>div>h2,.product-gateway>div>p{grid-column:1}
+.product-gateway>div>h2{font-size:clamp(28px,2.7vw,42px)}
+.product-gateway>div>p:not(.eyebrow){margin:14px 0 0;max-width:780px}
+.product-gateway>div>.button{grid-column:2;grid-row:2/4;align-self:center;font-size:14px;padding:12px 22px}
+.gateway-models{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.gateway-models a{background:#fff;padding:14px 18px;transition:border-color .18s,box-shadow .18s}
+.gateway-models a:hover{box-shadow:0 6px 20px #285b9410}
+.gateway-models .real-robot{height:160px;max-height:none;margin:0 0 10px}
+.page-index .vision-band{padding-block:52px;background:linear-gradient(#f4f9ff,#e6f0ff)}
+@media(min-width:761px) and (max-width:1050px){
+ .product-gateway>div:first-child{column-gap:24px}
+ .product-gateway>div>.button{max-width:240px;white-space:normal}
+ .gateway-models a{padding:12px}.gateway-models .real-robot{height:135px}
+}
+@media(max-width:760px){
+ .page-index .editorial-section{padding-inline:22px}
+ .page-index .company-overview{padding-block:40px}
+ .page-index .home-applications{padding-top:36px;padding-bottom:28px}
+ .page-index .product-gateway{padding-top:0;padding-bottom:36px}
+ .product-gateway>div:first-child{display:block;padding-top:28px;margin-bottom:22px}
+ .product-gateway>div>.button{margin-top:20px}
+ .product-gateway>div>h2{font-size:29px}
+ .gateway-models{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .gateway-models a{padding:12px}.gateway-models .real-robot{height:120px}
+ .page-index .vision-band{padding-block:36px}
+}
+@media(max-width:380px){.gateway-models .real-robot{height:100px}.gateway-models a{padding:10px}.gateway-models strong{font-size:16px}}
+
+/* Remove viewport-driven empty space and keep solution sections on one gutter. */
+.tech-screen{min-height:0;padding-bottom:32px}
+.architecture{min-height:0;padding-bottom:32px}
+.page-solutions main>.section{padding-inline:5.25%}
+.solution-details{padding-top:48px;padding-bottom:32px}
+.solution-detail:last-child{padding-bottom:16px}
+@media(max-width:760px){
+ .tech-screen{padding-bottom:24px}.architecture{padding-bottom:32px}
+ .page-solutions main>.section{padding-inline:22px}
+ .solution-details{padding-top:36px;padding-bottom:28px}
+}

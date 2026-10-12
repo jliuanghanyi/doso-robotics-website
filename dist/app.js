@@ -5,7 +5,18 @@ const EN = options.en ?? (document.documentElement.lang === 'en' || new URLSearc
 const t = (zh,en) => EN ? en : zh;
 const requestedPage = location.pathname.replace(/\/+$/, '').split('/').pop() || 'index';
 const route = options.page || document.documentElement.dataset.page || (requestedPage.includes('.') ? requestedPage : requestedPage + '.html');
-const url = (page) => ROOT + (EN ? 'en/' : '') + page;
+const url = (page) => {
+  const [pathAndQuery, hash] = page.split('#');
+  const [path, query] = pathAndQuery.split('?');
+  const params = new URLSearchParams(query || '');
+  params.set('lang', EN ? 'en' : 'zh');
+  return ROOT + (EN ? 'en/' : '') + path + '?' + params + (hash ? '#'+hash : '');
+};
+const languageUrl = en => {
+  const params = new URLSearchParams(location.search);
+  params.set('lang', en ? 'en' : 'zh');
+  return ROOT + (en ? 'en/' : '') + route + '?' + params + location.hash;
+};
 const A = ROOT + 'assets/';
 // Reference artwork is displayed through independent, precisely bounded image windows.
 // All typography, cards, diagrams, navigation and controls are native HTML/CSS.
@@ -20,7 +31,7 @@ const products = [
 ];
 const stats = p => `<dl class="stats">${p.spec.map((s,i)=>`<div><dt>${s}</dt><dd>${[t('最大载荷','Max payload'),t('续航时间','Endurance'),t('最大速度','Max speed')][i]}</dd></div>`).join('')}</dl>`;
 const btn = (text,href,secondary=false) => `<a class="button ${secondary?'secondary':''}" href="${url(href)}">${text}<span aria-hidden="true">↗</span></a>`;
-function header(){return `<header class="header ${route==='index.html'?'home-header':''}"><a class="brand" href="${url('index.html')}" aria-label="DOSO ${t('首页','Home')}"><img src="${A}logo-blue.png" alt="DOSO robotics"></a><button class="menu-toggle" aria-expanded="false" aria-controls="nav" aria-label="${t('打开导航','Open navigation')}">☰</button><nav id="nav" aria-label="${t('主导航','Main navigation')}"><div class="product-nav"><a class="${route==='products.html'?'active':''}" href="${url('products.html')}">${t('产品','Products')}</a><div class="dropdown">${products.map(p=>`<a href="${url('products.html')}#${p.id}"><strong>${p.name}</strong><small>${p.title}</small></a>`).join('')}</div></div><a class="${route==='solutions.html'?'active':''}" href="${url('solutions.html')}">${t('解决方案','Solutions')}</a><a class="${route==='technology.html'?'active':''}" href="${url('technology.html')}">${t('技术','Technology')}</a><a class="${route==='about.html'?'active':''}" href="${url('about.html')}">${t('关于 DOSO','About DOSO')}</a><a class="mobile-nav-demo" href="${url('contact.html')}">${t('预约演示','Book a demo')} <span aria-hidden="true">↗</span></a></nav><div class="header-actions"><div class="language" aria-label="Language"><a href="${ROOT}${route}${location.search}${location.hash}" class="${!EN?'selected':''}" lang="zh" data-language="zh" aria-label="切换为中文">中</a><a href="${ROOT}en/${route}${location.search}${location.hash}" class="${EN?'selected':''}" lang="en" data-language="en" aria-label="Switch to English">EN</a></div>${btn(t('预约演示','Book a demo'),'contact.html')}</div></header>`}
+function header(){return `<header class="header site-header ${route==='index.html'?'home-header':''}"><a class="brand" href="${url('index.html')}" aria-label="DOSO ${t('首页','Home')}"><img src="${A}logo-blue.png" alt="DOSO robotics"></a><button class="menu-toggle" aria-expanded="false" aria-controls="nav" aria-label="${t('打开导航','Open navigation')}">☰</button><nav id="nav" aria-label="${t('主导航','Main navigation')}"><div class="product-nav"><a class="${route==='products.html'?'active':''}" href="${url('products.html')}">${t('产品','Products')}</a><div class="dropdown">${products.map(p=>`<a href="${url('products.html')}#${p.id}"><strong>${p.name}</strong><small>${p.title}</small></a>`).join('')}</div></div><a class="${route==='solutions.html'?'active':''}" href="${url('solutions.html')}">${t('解决方案','Solutions')}</a><a class="${route==='technology.html'?'active':''}" href="${url('technology.html')}">${t('技术','Technology')}</a><a class="${route==='about.html'?'active':''}" href="${url('about.html')}">${t('关于 DOSO','About DOSO')}</a><a class="mobile-nav-demo" href="${url('contact.html')}">${t('预约演示','Book a demo')} <span aria-hidden="true">↗</span></a></nav><div class="header-actions"><div class="language" aria-label="Language"><a href="${languageUrl(false)}" class="${!EN?'selected':''}" lang="zh" data-language="zh" aria-label="切换为中文">中</a><a href="${languageUrl(true)}" class="${EN?'selected':''}" lang="en" data-language="en" aria-label="Switch to English">EN</a></div>${btn(t('预约演示','Book a demo'),'contact.html')}</div></header>`}
 function footer(){return `<footer><a href="${url('index.html')}"><img src="${A}logo-blue.png" alt="DOSO robotics"></a><p>${t('让机器人理解任务，进入真实世界。','Let robots understand tasks and enter the real world.')}</p><div><a href="${url('products.html')}">${t('产品','Products')}</a><a href="${url('technology.html')}">${t('技术','Technology')}</a><a href="${url('contact.html')}">${t('联系与预约','Contact & demo')}</a></div><small>© 2026 DOSO ROBOTICS</small></footer>`}
 function matrix(){return `<section class="matrix section" id="products"><div class="section-heading"><p class="eyebrow">01 <span>/ PRODUCT MATRIX</span></p><h2 class="matrix-title">${t('四款平台，覆盖不同任务边界。','Four platforms. Different task boundaries.')}</h2><p class="lead">${t('按任务场景、载荷、续航、运动能力与开发需求，选择适合的机器人平台。','Choose your platform by task, payload, endurance, mobility and development needs.')}</p></div><div class="product-grid">${products.map((p,i)=>`<article class="product-card ${i===0?'dark':''}" id="${p.id}"><div class="product-art">${crop('product-source.jpg',...p.box,p.name+' robot')}</div><div class="product-copy"><span class="index">0${i+1}</span><h2>${p.name}</h2><h3>${p.title}</h3><p>${p.desc}</p>${stats(p)}<button class="text-link" data-product="${p.id}">${t('了解产品','Explore product')} <span>→</span></button></div></article>`).join('')}</div><div class="task-strip"><div><small>CHOOSE BY TASK</small><h3>${t('按任务场景选择','Choose by task')}</h3></div>${[[t('教学与开发','Education'),371,848,397,71,'orix'],[t('复杂现场','Fieldwork'),780,848,406,71,'thunder'],[t('科研与重载','Research'),1198,848,425,71,'titan']].map(a=>`<button data-product="${a[5]}" class="task"><img class="task-photo" src="${A}scene-${a[5]==='orix'?3:a[5]==='thunder'?1:2}.png" alt=""><span>${a[0]}</span><b>→</b></button>`).join('')}</div></section>`}
 function home(){return `<section class="hero"><div class="hero-bg"></div><div class="hero-copy"><p class="hero-kicker">DOSO ROBOTICS /<br>INTELLIGENT MOBILE SYSTEMS</p><div class="accent-line"></div><h1>${t('让机器人理解任务，<br><em>进入真实世界。</em>','Let robots understand tasks.<br><em>Enter the real world.</em>')}</h1><p class="lead">${t('从机器人本体、3D 世界生成与物理仿真，<br>到真实任务数据回流，构建可验证、可迭代的智能系统。','From robot hardware, 3D world generation and physical simulation to real-world task data. Build intelligence that can be verified and improved.')}</p><div class="actions">${btn(t('探索产品','Explore products'),'products.html')}${btn(t('预约现场演示','Book an on-site demo'),'contact.html',true)}</div></div><a class="scroll-cue" href="#products" aria-label="${t('向下查看产品','Scroll to products')}"><i></i><span>⌄</span></a><div class="hero-caption">01<small>PRODUCT SYSTEM</small></div></section>${matrix()}<section class="home-link section"><p class="eyebrow">02 / FULL-STACK CAPABILITY</p><h2>${t('先在世界里验证，再让机器人进入现场。','Validate in a virtual world. Then enter the field.')}</h2><p class="lead">${t('机器人本体 → 3D 世界生成 → 物理仿真与模型训练 → 真实任务数据','Robot hardware → 3D world generation → Simulation & training → Real-world data')}</p>${btn(t('探索技术能力','Explore our technology'),'technology.html')}</section>`}
@@ -49,7 +60,7 @@ return `<section class="solution-hero section"><div><p class="eyebrow">02 / SOLU
 function contact(){return `<section class="section contact"><div><p class="eyebrow">LET’S BUILD SOMETHING REAL</p><h1>${t('把真实任务带来，<br>一起定义交付方案。','Bring a real task.<br>Define the solution together.')}</h1><p class="lead">${t('告诉我们场景、环境和目标，整理你的产品与验证需求。','Describe your scenario, environment and objective.')}</p><p class="contact-note">${t('当前为网页演示版。填写后可下载需求单，方便与 DOSO 团队沟通；不会自动发送或提交预约。','This is a website demo. Download your brief to share with the DOSO team. No booking is sent automatically.')}</p></div><form id="demo-form"><h2>${t('预约产品与方案演示','Prepare a demo request')}</h2><label>${t('姓名','Name')}<input name="name" autocomplete="name" required maxlength="80"></label><label>${t('公司 / 机构','Company / institution')}<input name="company" autocomplete="organization" required maxlength="120"></label><label>${t('邮箱或电话','Email or phone')}<input name="contact" required maxlength="120"></label><label>${t('关注产品','Product of interest')}<select name="product"><option value="">${t('暂不确定，请协助选型','Help me choose')}</option>${products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></label><label>${t('任务与场景','Task and scenario')}<textarea name="task" rows="4" required maxlength="2000" placeholder="${t('例如：工业园区巡检、设备识别、科研开发……','Describe your task and environment…')}"></textarea></label><button class="button" type="submit">${t('生成并下载需求单','Download request brief')} <span>↓</span></button><p id="form-status" role="status"></p></form></section>`}
 document.documentElement.lang=EN?'en':'zh-CN';
 document.documentElement.dataset.page=route;
-document.documentElement.dataset.version='20261010-r4';
+document.documentElement.dataset.version='20261012-r5';
 const pageTitles={'index.html':t('首页','Home'),'products.html':t('产品矩阵','Product matrix'),'technology.html':t('技术能力与系统架构','Technology & architecture'),'about.html':t('关于 DOSO','About DOSO'),'solutions.html':t('解决方案','Solutions'),'contact.html':t('联系与演示需求','Contact & demo')};
 document.title='DOSO Robotics｜'+pageTitles[route];
 document.body.className='page-'+(route.replace('.html',''))+(EN?' english':'');
@@ -81,47 +92,56 @@ function setNavigationOpen(open, restoreFocus=false) {
   if(restoreFocus)toggle.focus();
 }
 
-// Every internal route and language switch renders immediately, without a network round trip.
-// Separate HTML files remain available for direct entry, refresh, and JavaScript-free navigation.
+// URL language is explicit; a saved preference is used only for unmarked URLs.
+function resolveSiteRoute(target, base, preferredLanguage='zh') {
+  if(target.origin!==base.origin || !target.pathname.startsWith(base.pathname))return null;
+  const parts=target.pathname.slice(base.pathname.length).replace(/^\/+|\/+$/g,'').split('/');
+  const englishPath=parts[0]==='en';if(englishPath)parts.shift();
+  if(parts.length>1)return null;
+  const page=(parts[0]||'index').replace(/\.html$/,'');
+  if(!['index','products','technology','about','solutions','contact'].includes(page))return null;
+  const explicit=target.searchParams.get('lang');
+  const en=explicit==='en'||(explicit!=='zh'&&(englishPath||preferredLanguage==='en'));
+  return {page:page+'.html',en,root:base.href};
+}
+
 if (typeof __BUILD__ !== 'undefined') {
   renderSite();
 } else {
-  const base = new URL(document.documentElement.dataset.root || './', location.href);
-  const pages = ['index','products','technology','about','solutions','contact'];
-  function readRoute(target) {
-    if(target.origin!==base.origin || !target.pathname.startsWith(base.pathname))return null;
-    const parts=target.pathname.slice(base.pathname.length).replace(/^\/+|\/+$/g,'').split('/');
-    const en=parts[0]==='en';if(en)parts.shift();
-    if(parts.length>1)return null;
-    const page=(parts[0]||'index').replace(/\.html$/,'');
-    if(!pages.includes(page))return null;
-    return {page:page+'.html',en:en||target.searchParams.get('lang')==='en',root:base.href};
-  }
-  let state=readRoute(new URL(location.href))||{page:document.documentElement.dataset.page,en:document.documentElement.lang==='en',root:base.href};
+  // Asset location is stable even if hosting normalizes page URLs.
+  const base = document.currentScript?.src ? new URL('.',document.currentScript.src) : new URL(document.documentElement.dataset.root || './',location.href);
+  let preferredLanguage=document.documentElement.lang==='en'?'en':'zh';
+  try { const saved=localStorage.getItem('doso-language');if(saved==='en'||saved==='zh')preferredLanguage=saved; } catch {}
+  const readRoute=target=>resolveSiteRoute(target,base,preferredLanguage);
+  let state=readRoute(new URL(location.href))||{page:document.documentElement.dataset.page,en:preferredLanguage==='en',root:base.href};
+  const canonical=(next,target)=>{const result=new URL((next.en?'en/':'')+next.page,base);result.search=target.search;result.searchParams.set('lang',next.en?'en':'zh');result.hash=target.hash;return result;};
   function show(next,keepScroll=false) {
     const y=window.scrollY;
     const form=document.getElementById('demo-form');
     const draft=form&&state.page===next.page?Object.fromEntries(new FormData(form)):null;
-    state=next;renderSite(state);
+    state=next;preferredLanguage=state.en?'en':'zh';
+    try{localStorage.setItem('doso-language',preferredLanguage);}catch{}
+    renderSite(state);
     if(draft){const restored=document.getElementById('demo-form');for(const [key,value] of Object.entries(draft))if(restored.elements[key])restored.elements[key].value=value;}
     const skip=document.querySelector('.skip');if(skip)skip.textContent=state.en?'Skip to main content':'跳转至主要内容';
     if(keepScroll)window.scrollTo(0,y);else if(!location.hash)window.scrollTo(0,0);
   }
+  if(location.protocol!=='file:'){const initial=canonical(state,new URL(location.href));history.replaceState({},'',initial.pathname+initial.search+initial.hash);}
   show(state);
-  document.addEventListener('keydown',event=>{if(event.key==='Escape')setNavigationOpen(false,true);});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.querySelector('.header.menu-open'))setNavigationOpen(false,true);});
   document.addEventListener('click',event=>{
     if(!event.target.closest('.header'))setNavigationOpen(false);
     if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
     const link=event.target.closest('a[href]');
     if(!link||link.hasAttribute('download')||link.target)return;
     const target=new URL(link.href,location.href);const next=readRoute(target);if(!next)return;
-    // Native anchors handle in-page scrolling. Cross-page anchors use the renderer.
+    if(link.dataset.language){next.en=link.dataset.language==='en';target.searchParams.set('lang',next.en?'en':'zh');}
     if(!link.dataset.language&&target.pathname===location.pathname&&target.search===location.search&&target.hash)return;
     event.preventDefault();
-    if(link.dataset.language){next.en=link.dataset.language==='en';target.searchParams.delete('lang');}
-    if(location.protocol==='file:'){location.href=target.href;return;}
-    history.pushState({},'',target.pathname+target.search+target.hash);
+    const destination=canonical(next,target);
+    if(location.protocol==='file:'){location.href=destination.href;return;}
+    if(destination.href!==location.href)history.pushState({},'',destination.pathname+destination.search+destination.hash);
     show(next,!!link.dataset.language);
   });
-  window.addEventListener('popstate',()=>{const next=readRoute(new URL(location.href));if(next)show(next);});
+  window.addEventListener('popstate',()=>{const target=new URL(location.href);const next=readRoute(target);if(next){const destination=canonical(next,target);history.replaceState({},'',destination.pathname+destination.search+destination.hash);show(next);}});
 }

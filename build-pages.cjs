@@ -24,7 +24,7 @@ for(const [page,titles] of Object.entries(pages))for(const en of [false,true]){
  const target=path.join(dist,en?'en':'',page+'.html');fs.mkdirSync(path.dirname(target),{recursive:true});
  const doc=`<!doctype html>\n<html lang="${en?'en':'zh-CN'}" data-page="${page}.html" data-root="${root}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${en?'DOSO Robotics: robot platforms, simulation and real-world task intelligence.':'DOSO Robotics 大算机器人：机器人平台、仿真与真实任务智能。'}"><title>DOSO Robotics｜${titles[en?1:0]}</title><link rel="stylesheet" href="${root}${cssAsset}"><script src="${root}${appAsset}" defer></script></head><body class="${body}"><a href="#main" class="skip">${en?'Skip to main content':'跳转至主要内容'}</a><div id="app">${html}</div></body></html>\n`;
  fs.writeFileSync(target,doc);
- const expectedLangLink=en?`${root}${page}.html`:`${root}en/${page}.html`;
+ const expectedLangLink=en?`${root}${page}.html?lang=zh`:`${root}en/${page}.html?lang=en`;
  assert.ok(html.includes(`href="${expectedLangLink}"`));
  if(page!=='index')assert.ok(!html.includes('class="hero"'),'Only the homepage may render the homepage hero');
  if(en)assert.ok(!/[\u4e00-\u9fff]/.test(html.replace(/aria-label="切换为中文"/g,'').replace(/>中</g,'><')),'English page should not retain Chinese interface copy');

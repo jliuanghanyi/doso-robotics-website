@@ -197,7 +197,10 @@ if (typeof __BUILD__ !== 'undefined') {
     if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
     if(event.target.closest('.back-to-top')){
       event.preventDefault();
-      if(location.hash)history.replaceState({},'',location.pathname+location.search);
+      if(location.hash){
+        history.replaceState({},'',location.pathname+location.search);
+        document.querySelectorAll('[data-language]').forEach(link=>{const target=new URL(link.href);target.hash='';link.href=target.href;});
+      }
       document.querySelector('.header .brand')?.focus({preventScroll:true});
       window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
       return;

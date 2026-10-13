@@ -103,12 +103,12 @@ return `<section class="solution-hero section"><div><p class="eyebrow">02 / SOLU
 function contact(){return `<section class="section contact"><div><p class="eyebrow">LET’S BUILD SOMETHING REAL</p><h1>${t('整理产品与场景需求。','Prepare your project brief.')}</h1><p class="lead">${t('填写应用场景、关注产品与联系方式，生成一份可下载的需求单。','Describe your application, product interests and contact details to create a downloadable brief.')}</p><p class="contact-note">${t('本页尚未开通在线提交。需求单仅供下载，不会自动发送或预约。','Online submission is not yet available. This form downloads a brief; it does not send a request or book a demo.')}</p></div><form id="demo-form"><h2>${t('产品与方案需求单','Product and solution brief')}</h2><label>${t('姓名','Name')}<input name="name" autocomplete="name" required maxlength="80"></label><label>${t('公司 / 机构','Company / institution')}<input name="company" autocomplete="organization" required maxlength="120"></label><label>${t('邮箱或电话','Email or phone')}<input name="contact" required maxlength="120"></label><label>${t('关注产品','Product of interest')}<select name="product"><option value="">${t('暂不确定，请协助选型','Help me choose')}</option>${products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></label><label>${t('任务与场景','Task and scenario')}<textarea name="task" rows="4" required maxlength="2000" placeholder="${t('例如：工业园区巡检、设备识别、科研开发……','Describe your task and environment…')}"></textarea></label><button class="button" type="submit">${t('生成并下载需求单','Download your brief')} <span>↓</span></button><p id="form-status" role="status"></p></form></section>`}
 document.documentElement.lang=EN?'en':'zh-CN';
 document.documentElement.dataset.page=route;
-document.documentElement.dataset.version='20261013-r10';
+document.documentElement.dataset.version='20261013-r11';
 const pageTitles={'index.html':t('首页','Home'),'products.html':t('产品矩阵','Product matrix'),'technology.html':t('技术能力与系统架构','Technology & architecture'),'about.html':t('关于 DOSO','About DOSO'),'solutions.html':t('解决方案','Solutions'),'contact.html':t('产品与方案需求单','Prepare a project brief')};
 const metadata=typeof SITE_METADATA!=='undefined'?SITE_METADATA[route.replace('.html','')][EN?'en':'zh']:null;
 document.title=metadata?.title||'DOSO Robotics｜'+pageTitles[route];
 document.body.className='page-'+(route.replace('.html',''))+(EN?' english':'');
-document.getElementById('app').innerHTML = header()+`<main id="main">${({'index.html':home,'products.html':()=>matrix()+productComparison(),'technology.html':tech,'about.html':about,'solutions.html':solutions,'contact.html':contact}[route]||home)()}</main>`+footer()+`<dialog id="product-dialog"><button class="close-dialog" aria-label="${t('关闭','Close')}">×</button><div id="product-detail"></div></dialog>`;
+document.getElementById('app').innerHTML = header()+`<main id="main">${({'index.html':home,'products.html':()=>matrix()+productComparison(),'technology.html':tech,'about.html':about,'solutions.html':solutions,'contact.html':contact}[route]||home)()}</main>`+footer()+`<button class="back-to-top" type="button" hidden aria-label="${t('返回顶部','Back to top')}" title="${t('返回顶部','Back to top')}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14M12 20V8m-6 6 6-6 6 6"/></svg><span>${t('返回顶部','Back to top')}</span></button><dialog id="product-dialog"><button class="close-dialog" aria-label="${t('关闭','Close')}">×</button><div id="product-detail"></div></dialog>`;
 document.querySelector('.menu-toggle').addEventListener('click',e=>setNavigationOpen(e.currentTarget.getAttribute('aria-expanded')!=='true'));
 // The same metadata is pre-rendered for crawlers and refreshed after in-page navigation.
 if(metadata){
@@ -141,7 +141,15 @@ function setNavigationOpen(open, restoreFocus=false) {
   toggle.setAttribute('aria-expanded',String(open));
   toggle.setAttribute('aria-label',open?(en?'Close navigation':'关闭导航'):(en?'Open navigation':'打开导航'));
   document.querySelector('.header').classList.toggle('menu-open',open);
+  syncBackToTop();
   if(restoreFocus)toggle.focus();
+}
+
+function syncBackToTop() {
+  const button=document.querySelector('.back-to-top');
+  const scrollRange=document.documentElement.scrollHeight-window.innerHeight;
+  const threshold=Math.min(300,Math.max(24,scrollRange*.25));
+  if(button)button.hidden=window.scrollY<=threshold||!!document.querySelector('.header.menu-open');
 }
 
 // URL language is explicit; a saved preference is used only for unmarked URLs.
@@ -177,13 +185,23 @@ if (typeof __BUILD__ !== 'undefined') {
     if(draft){const restored=document.getElementById('demo-form');for(const [key,value] of Object.entries(draft))if(restored.elements[key])restored.elements[key].value=value;}
     const skip=document.querySelector('.skip');if(skip)skip.textContent=state.en?'Skip to main content':'跳转至主要内容';
     if(keepScroll)window.scrollTo(0,y);else if(!location.hash)window.scrollTo(0,0);
+    requestAnimationFrame(syncBackToTop);
   }
   if(location.protocol!=='file:'){const initial=canonical(state,new URL(location.href));history.replaceState({},'',initial.pathname+initial.search+initial.hash);}
   show(state);
+  window.addEventListener('scroll',syncBackToTop,{passive:true});
+  window.addEventListener('resize',syncBackToTop);
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.querySelector('.header.menu-open'))setNavigationOpen(false,true);});
   document.addEventListener('click',event=>{
     if(!event.target.closest('.header'))setNavigationOpen(false);
     if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+    if(event.target.closest('.back-to-top')){
+      event.preventDefault();
+      if(location.hash)history.replaceState({},'',location.pathname+location.search);
+      document.querySelector('.header .brand')?.focus({preventScroll:true});
+      window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+      return;
+    }
     const link=event.target.closest('a[href]');
     if(!link||link.hasAttribute('download')||link.target)return;
     const target=new URL(link.href,location.href);const next=readRoute(target);if(!next)return;

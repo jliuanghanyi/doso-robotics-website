@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://doso-reference-oct10.helen668401.chatgpt.site/sitemap.xml

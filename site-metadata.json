@@ -1,8 +1,8 @@
 {
   "index": {
     "zh": {
-      "title": "四足机器人与智能系统 | DOSO Robotics",
-      "description": "穹沛科技研发四足机器人与智能系统，面向工业巡检、应急作业与教育科研。了解机器人产品、开发工具、仿真验证与场景应用方案。"
+      "title": "四足机器人与智能系统 | 大算机器人",
+      "description": "大算机器人研发四足机器人与智能系统，面向工业巡检、应急作业与教育科研。了解机器人产品、开发工具、仿真验证与场景应用方案。"
     },
     "en": {
       "title": "Quadruped Robots & Intelligent Systems | DOSO Robotics",
@@ -11,7 +11,7 @@
   },
   "products": {
     "zh": {
-      "title": "机器人选型与参数对比 | DOSO Robotics",
+      "title": "机器人选型与参数对比 | 大算机器人",
       "description": "对比 Orix、Thunder、Titan 与 Explorer 四款四足机器人的载荷、续航、运动能力与应用定位，按教育开发、复杂地形巡检或重载科研需求选型。"
     },
     "en": {
@@ -21,7 +21,7 @@
   },
   "solutions": {
     "zh": {
-      "title": "教育科研与智能巡检解决方案 | DOSO Robotics",
+      "title": "教育科研与智能巡检解决方案 | 大算机器人",
       "description": "了解 Orix 教育开发与 Explorer 智能巡检方案。从课程、SDK 与仿真，到导航、任务编排和远程运维，按现场任务配置机器人与软件。"
     },
     "en": {
@@ -31,8 +31,8 @@
   },
   "technology": {
     "zh": {
-      "title": "机器人仿真与技术架构 | DOSO Robotics",
-      "description": "了解 DOSO 的机器人硬件、感知与控制、3D 场景重建和物理仿真流程，以及从训练验证到任务数据反馈的系统架构。"
+      "title": "机器人仿真与技术架构 | 大算机器人",
+      "description": "了解 大算机器人 的机器人硬件、感知与控制、3D 场景重建和物理仿真流程，以及从训练验证到任务数据反馈的系统架构。"
     },
     "en": {
       "title": "Robot Simulation & System Architecture | DOSO Robotics",
@@ -41,18 +41,18 @@
   },
   "about": {
     "zh": {
-      "title": "关于穹沛科技 | DOSO Robotics",
-      "description": "认识穹沛科技：专注四足机器人与智能系统，协同研发机械、电控、运动控制、感知算法与软件平台，面向巡检、应急与教育科研应用。"
+      "title": "关于大算机器人",
+      "description": "认识大算机器人：专注四足机器人与智能系统，协同研发机械、电控、运动控制、感知算法与软件平台，面向巡检、应急与教育科研应用。"
     },
     "en": {
-      "title": "About Qiongpei Technology | DOSO Robotics",
-      "description": "Meet Qiongpei Technology and explore its approach to robot hardware, motion control, perception and software for inspection, education and research."
+      "title": "About DOSO Robotics",
+      "description": "Meet DOSO Robotics and explore its approach to robot hardware, motion control, perception and software for inspection, education and research."
     }
   },
   "contact": {
     "zh": {
-      "title": "产品与方案需求单 | DOSO Robotics",
-      "description": "整理应用场景、关注产品与联系方式，生成可下载的 DOSO 产品与方案需求单。当前页面不自动发送需求或提交演示预约。"
+      "title": "产品与方案需求单 | 大算机器人",
+      "description": "整理应用场景、关注产品与联系方式，生成可下载的 大算机器人 产品与方案需求单。当前页面不自动发送需求或提交演示预约。"
     },
     "en": {
       "title": "Prepare a Project Brief | DOSO Robotics",

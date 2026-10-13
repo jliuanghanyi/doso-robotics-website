@@ -10,13 +10,13 @@ const {createHash}=require('node:crypto');
 const fingerprint=(source,ext)=>{const name=`${ext==='js'?'app':'styles'}.${createHash('sha256').update(source).digest('hex').slice(0,12)}.${ext}`;fs.writeFileSync(path.join(dist,name),source);return name;};
 const appAsset=fingerprint(code,'js');
 const cssAsset=fingerprint(fs.readFileSync(path.join(dist,'styles.css'),'utf8'),'css');
-const pages={index:['让机器人理解任务，进入真实世界','Robotics for the real world'],products:['产品矩阵','Product matrix'],technology:['技术能力与系统架构','Technology & architecture'],about:['关于 DOSO','About DOSO'],solutions:['解决方案','Solutions'],contact:['联系与演示需求','Contact & demo']};
+const pages={index:['让机器人理解任务，进入真实世界','Robotics for the real world'],products:['产品矩阵','Product matrix'],technology:['技术能力与系统架构','Technology & architecture'],about:['关于大算机器人','About DOSO'],solutions:['解决方案','Solutions'],contact:['联系与演示需求','Contact & demo']};
 const stop=Symbol('rendered');
 const escapeAttr=value=>String(value).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 const canonical=(page,en)=>`${origin}/${en?'en/':''}${page}.html`;
 function headMetadata(page,en){
  const m=metadata[page][en?'en':'zh'];
- const tags=[['name','description',m.description],['property','og:type','website'],['property','og:site_name','DOSO Robotics'],['property','og:title',m.title],['property','og:description',m.description],['property','og:url',canonical(page,en)],['property','og:locale',en?'en_US':'zh_CN'],['property','og:locale:alternate',en?'zh_CN':'en_US'],['property','og:image',`${origin}/assets/hero-clean.png`],['property','og:image:alt',en?'DOSO Robotics wheeled quadruped robot':'DOSO Robotics 轮足机器人'],['name','twitter:card','summary_large_image'],['name','twitter:title',m.title],['name','twitter:description',m.description],['name','twitter:image',`${origin}/assets/hero-clean.png`]];
+ const tags=[['name','description',m.description],['property','og:type','website'],['property','og:site_name',en?'DOSO Robotics':'大算机器人'],['property','og:title',m.title],['property','og:description',m.description],['property','og:url',canonical(page,en)],['property','og:locale',en?'en_US':'zh_CN'],['property','og:locale:alternate',en?'zh_CN':'en_US'],['property','og:image',`${origin}/assets/hero-clean.png`],['property','og:image:alt',en?'DOSO Robotics wheeled quadruped robot':'大算机器人轮足机器人'],['name','twitter:card','summary_large_image'],['name','twitter:title',m.title],['name','twitter:description',m.description],['name','twitter:image',`${origin}/assets/hero-clean.png`]];
  return `<title>${escapeAttr(m.title)}</title>`+tags.map(([key,name,value])=>`<meta ${key}="${name}" content="${escapeAttr(value)}">`).join('')+`<link rel="canonical" href="${canonical(page,en)}">`+[['zh-CN',false],['en',true],['x-default',false]].map(([lang,english])=>`<link rel="alternate" hreflang="${lang}" href="${canonical(page,english)}">`).join('');
 }
 function render(page,en,pathname='/'){

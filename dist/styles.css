@@ -546,8 +546,7 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 .chain-card .hd-art>img{object-fit:contain}
 .robot-orix>svg{max-width:625px;margin-inline:auto}
 .robot-explorer>svg{max-width:600px;margin-inline:auto}
-.robot-thunder>svg{max-width:316px;margin-inline:auto}
-.robot-titan>svg{max-width:303px;margin-inline:auto}
+.robot-thunder>svg,.robot-titan>svg{max-width:600px;margin-inline:auto}
 
 .tech-visual .hd-art{mask-image:linear-gradient(90deg,transparent,#000 12%),linear-gradient(0deg,transparent,#000 12%);mask-composite:intersect}
 @media(min-width:1101px){.hero{height:min(100svh,56.28vw)}}

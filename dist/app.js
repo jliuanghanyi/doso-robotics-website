@@ -37,9 +37,10 @@ const products = [
  {id:'titan',name:'Titan',title:t('重载科研平台','Heavy-duty research'),desc:t('面向科研与行业应用，提供更大载荷<br>与更强扩展性的通用机器人平台。','An extensible robot platform for larger payloads, research and industry.'),weight:'60 kg',size:'110 × 50 × 70 cm',spec:['40–60 kg','8 h','5 m/s'],box:[998,552,286,285]},
  {id:'explorer',name:'Explorer',title:t('智能作业旗舰平台','Intelligent operations flagship'),desc:t('面向智能巡检方案，连接导航、<br>异常识别、任务编排与远程运维。','An inspection platform connecting navigation, anomaly detection, task scheduling and remote operations.'),weight:'38 kg',size:'100 × 47 × 58 cm',spec:['25–30 kg','3–5 h','3.7 m/s'],box:[995,249,324,269]}
 ];
-// Product images retain the supplied source pixels. Thunder/Titan use the PDF artwork, not a screen capture.
+// Orix/Explorer retain supplied artwork; Thunder/Titan use transparent, AI-restored presentation assets.
+// Original company artwork is retained; see docs/product-images-r19.md for provenance and limits.
 function robotArt(p){
- const original=p.id==='orix'?{file:'orix-original-r10.png',box:[0,82,625,530],width:625,height:670}:p.id==='explorer'?{file:'explorer-source-r10.jpg',box:[510,210,600,436],width:1672,height:941}:{file:'robot-matrix-original-r18.jpg',box:p.id==='thunder'?[438,194,316,282]:[886,509,303,294],width:1672,height:941};
+ const original=p.id==='orix'?{file:'orix-original-r10.png',box:[0,82,625,530],width:625,height:670}:p.id==='explorer'?{file:'explorer-source-r10.jpg',box:[510,210,600,436],width:1672,height:941}:{file:`${p.id}-restored-r19.webp`,box:[0,0,1254,1254],width:1254,height:1254};
  const [left,top,width,height]=original.box;
  return `<div class="art real-robot robot-${p.id}"><svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${p.name} ${t('机器人','robot')}"><svg width="${width}" height="${height}" overflow="hidden"><image href="${A+original.file}" x="${-left}" y="${-top}" width="${original.width}" height="${original.height}"/></svg></svg></div>`;
 }
@@ -118,7 +119,7 @@ return `<section class="solution-hero section"><div><p class="eyebrow">02 / SOLU
 function contact(){return `<section class="section contact"><div><p class="eyebrow">LET’S BUILD SOMETHING REAL</p><h1>${t('整理产品与场景需求。','Prepare your project brief.')}</h1><p class="lead">${t('填写应用场景、关注产品与联系方式，生成一份可下载的需求单。','Describe your application, product interests and contact details to create a downloadable brief.')}</p><p class="contact-note">${t('本页尚未开通在线提交。需求单仅供下载，不会自动发送或预约。','Online submission is not yet available. This form downloads a brief; it does not send a request or book a demo.')}</p></div><form id="demo-form"><h2>${t('产品与方案需求单','Product and solution brief')}</h2><label>${t('姓名','Name')}<input name="name" autocomplete="name" required maxlength="80"></label><label>${t('公司 / 机构','Company / institution')}<input name="company" autocomplete="organization" required maxlength="120"></label><label>${t('邮箱或电话','Email or phone')}<input name="contact" required maxlength="120"></label><label>${t('关注产品','Product of interest')}<select name="product"><option value="">${t('暂不确定，请协助选型','Help me choose')}</option>${products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></label><label>${t('任务与场景','Task and scenario')}<textarea name="task" rows="4" required maxlength="2000" placeholder="${t('例如：工业园区巡检、设备识别、科研开发……','Describe your task and environment…')}"></textarea></label><button class="button" type="submit">${t('生成并下载需求单','Download your brief')} <span>↓</span></button><p id="form-status" role="status"></p></form></section>`}
 document.documentElement.lang=EN?'en':'zh-CN';
 document.documentElement.dataset.page=route;
-document.documentElement.dataset.version='20261015-r18';
+document.documentElement.dataset.version='20261016-r19';
 const pageTitles={'index.html':t('首页','Home'),'products.html':t('产品矩阵','Product matrix'),'technology.html':t('技术能力与系统架构','Technology & architecture'),'about.html':t('关于大算机器人','About DOSO'),'solutions.html':t('解决方案','Solutions'),'contact.html':t('产品与方案需求单','Prepare a project brief')};
 const metadata=typeof SITE_METADATA!=='undefined'?SITE_METADATA[route.replace('.html','')][EN?'en':'zh']:null;
 document.title=metadata?.title||'DOSO Robotics｜'+pageTitles[route];

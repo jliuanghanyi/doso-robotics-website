@@ -547,6 +547,14 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 .robot-orix>svg{max-width:625px;margin-inline:auto}
 .robot-explorer>svg{max-width:600px;margin-inline:auto}
 .robot-thunder>svg,.robot-titan>svg{max-width:600px;margin-inline:auto}
+/* Compensate for the transparent margins of the taller restored product images. */
+.product-card:is(#thunder,#titan) .real-robot>svg{padding:0}
+@media(min-width:761px){
+ .product-card:is(#thunder,#titan) .product-art{top:3%;right:0;width:46%;height:94%}
+}
+@media(max-width:760px){
+ .product-card:is(#thunder,#titan) .product-art{padding:6px}
+}
 
 .tech-visual .hd-art{mask-image:linear-gradient(90deg,transparent,#000 12%),linear-gradient(0deg,transparent,#000 12%);mask-composite:intersect}
 @media(min-width:1101px){.hero{height:min(100svh,56.28vw)}}

@@ -358,11 +358,12 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 .page-index .platform-overview .platform-stack h3{font-size:18px;margin-bottom:9px}
 .page-index .platform-overview .platform-stack p{font-size:13px;line-height:1.5}
 .page-index .fleet-showcase{position:relative;isolation:isolate;padding:48px 3.2% 42px;min-height:440px;background:linear-gradient(180deg,#f4faff55,#f9fcffdc 48%,#f9fcfff5 100%),url('assets/courtyard-r14.png') center/cover;scroll-margin-top:0}
-.page-index .fleet-copy{position:relative;z-index:2;max-width:43%;margin-left:2.2%;padding:0}
+.page-index .fleet-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;width:92%;max-width:1360px;margin:0 auto}
+.page-index .fleet-copy{position:relative;z-index:2;flex:1;min-width:0;margin:0;padding:0}
 .page-index .fleet-copy .eyebrow{font-size:13px;letter-spacing:.06em;margin-bottom:10px}
 .page-index .fleet-copy h2{font-size:clamp(37px,3.8vw,62px);line-height:1.12;letter-spacing:-.02em;text-wrap:initial}
 .page-index .fleet-copy>p:not(.eyebrow){font-size:15px;margin:12px 0 0;line-height:1.6;max-width:440px}
-.page-index .fleet-action{display:flex;justify-content:center;width:92%;max-width:1360px;margin:32px auto 0}
+.page-index .fleet-action{display:flex;justify-content:flex-end;flex:0 0 auto;width:auto;max-width:34%;margin:0 0 2px}
 .page-index .fleet-action .button{font-size:14px;padding:12px 28px;min-height:48px;max-width:100%;white-space:normal;text-align:center}
 .page-index .fleet-models{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(24px,3vw,52px);align-items:end;position:relative;width:92%;max-width:1360px;margin:24px auto 0}
 .page-index .fleet-model{display:grid;grid-template-rows:auto 44px;justify-items:center;row-gap:22px;min-width:0;position:relative;text-align:center;padding:0 2px;outline-offset:2px;border-radius:10px}
@@ -383,7 +384,7 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
  .page-index .company-overview .value-grid{gap:18px}.page-index .value-grid article{padding-left:18px}.page-index .value-grid h3{font-size:18px}
  .page-index .platform-overview .platform-intro{grid-template-columns:1fr 1fr;gap:30px}.page-index .platform-overview .platform-summary{display:block}.page-index .platform-summary>p{margin-bottom:14px}
  .page-index .platform-overview .platform-stack{gap:18px}.page-index .platform-overview .platform-stack>div{padding:16px 12px}.page-index .platform-overview .platform-stack h3{font-size:16px}.page-index .platform-overview .platform-stack>div:not(:last-child):after{right:-18px;width:18px;font-size:20px}
- .page-index .fleet-copy{max-width:48%}.page-index .fleet-models{margin-top:24px}
+ .page-index .fleet-models{margin-top:24px}
 }
 @media(max-width:760px){
  .page-index .company-overview{padding:0}.page-index .company-showcase{grid-template-columns:1fr;padding:30px 22px 18px;gap:0;background-position:60% center;min-height:0}
@@ -394,7 +395,7 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
  .page-index .platform-overview{padding:30px 22px}.page-index .platform-overview .platform-intro{grid-template-columns:1fr;gap:18px;margin-bottom:22px}.page-index .platform-overview h2{font-size:29px}
  .page-index .platform-overview .platform-summary{display:block}.page-index .platform-summary>p{font-size:15px;margin-bottom:16px}
  .page-index .platform-overview .platform-stack{grid-template-columns:1fr;gap:10px}.page-index .platform-overview .platform-stack>div{display:flex;padding:17px 18px;gap:18px}.page-index .platform-overview .platform-stack>div>span{display:block;flex-shrink:0;margin:2px 0 0}.page-index .platform-overview .platform-stack>div>span:after{display:none}.page-index .platform-overview .platform-stack h3{font-size:19px;margin-bottom:5px}.page-index .platform-overview .platform-stack p{font-size:14px}
- .page-index .fleet-showcase{padding:30px 22px 26px;min-height:0;background-position:62% center}.page-index .fleet-copy{max-width:none;margin:0}.page-index .fleet-copy h2{font-size:clamp(35px,8vw,46px)}.page-index .fleet-copy>p:not(.eyebrow){font-size:15px;max-width:450px}.page-index .fleet-action{width:100%;margin:28px 0 0}.page-index .fleet-action .button{width:auto}
+ .page-index .fleet-showcase{padding:30px 22px 26px;min-height:0;background-position:62% center}.page-index .fleet-heading{display:block;width:100%}.page-index .fleet-copy{max-width:none;margin:0}.page-index .fleet-copy h2{font-size:clamp(35px,8vw,46px)}.page-index .fleet-copy>p:not(.eyebrow){font-size:15px;max-width:450px}.page-index .fleet-action{justify-content:flex-start;width:100%;max-width:none;margin:22px 0 0}.page-index .fleet-action .button{width:auto}
  .page-index .fleet-models{width:100%;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 20px;margin:32px 0 0}.page-index .fleet-model .real-robot{height:clamp(110px,34vw,190px)}.page-index .fleet-name{font-size:13px;gap:8px;padding:6px 12px;margin-top:0}
  .page-index .home-vision{grid-template-columns:1fr;gap:22px;padding:28px 22px}.page-index .home-vision h2{font-size:30px}.page-index .home-vision-action{border-left:0;border-top:1px solid #c4dcf2;padding:20px 0 0}.page-index .home-vision-action p{font-size:16px;margin-bottom:16px}
 }

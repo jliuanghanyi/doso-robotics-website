@@ -80,11 +80,14 @@
   .delivery{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
-/* One header geometry on every page; the homepage defines the alignment. */
-html{overflow-y:scroll;scrollbar-gutter:stable}
+/* One header surface, geometry and scroll offset on every page. */
+:root{--site-header-height:min(9.5vw,90px)}
+html{overflow-y:scroll;scrollbar-gutter:stable;scroll-padding-top:calc(var(--site-header-height) + 16px)}
+.header.site-header,.header.site-header.home-header{position:sticky;top:0;left:0;z-index:50;background:rgba(250,253,255,.93);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 2px 12px #0b193306}
+.header.site-header.home-header{margin-bottom:calc(0px - var(--site-header-height))}
 @media(min-width:761px){
-  .header.site-header{position:relative;inset:auto;width:100%;height:min(9.5vw,90px);max-height:90px;padding:0 4.2%;gap:24px;border-radius:0;border:0;border-bottom:1px solid #e5edf7}
-  .header.site-header.home-header{position:absolute;top:0;left:0;border-bottom-color:#ffffff55}
+  .header.site-header{width:100%;height:var(--site-header-height);max-height:90px;padding:0 4.2%;gap:24px;border-radius:0;border:0;border-bottom:1px solid #e5edf7}
+  .header.site-header.home-header{border-bottom-color:#e5edf7}
   .header.site-header nav{margin-left:auto;margin-right:2vw}
   .header.site-header nav>a,.header.site-header .product-nav>a{padding:25px 0}
   .header.site-header .dropdown{top:62px}
@@ -97,9 +100,9 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
   .header.site-header{padding-inline:3%;gap:15px}
 }
 @media(max-width:760px){
-  .header.site-header{position:relative;inset:auto;width:100%;height:70px;max-height:none;border-radius:0;border:0;border-bottom:1px solid #e5edf7;padding:0 16px;gap:10px}
-  .header.site-header.home-header{position:absolute;top:0;left:0}
-  .header.site-header nav{margin:0}
+  :root{--site-header-height:70px}
+  .header.site-header{width:100%;height:var(--site-header-height);max-height:none;border-radius:0;border:0;border-bottom:1px solid #e5edf7;padding:0 16px;gap:10px}
+  .header.site-header nav{margin:0;top:var(--site-header-height);max-height:calc(100svh - var(--site-header-height))}
 }
 
 /* Exact product photographs from the supplied matrix, shared across all languages. */
@@ -154,7 +157,7 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 .company-engineering{background:white}.discipline-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}.discipline-grid article{border:1px solid #d6e4f4;border-radius:16px;padding:28px 24px}.discipline-grid svg{color:var(--blue);margin-bottom:22px}.discipline-grid h3{font-size:var(--type-h3);margin-bottom:14px}.discipline-grid p{font-size:16px}
 .growth-story{background:#071d40;color:white}.growth-story .eyebrow{color:var(--muted)}.growth-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}.growth-columns article{border-top:1px solid #4d6b93;padding-top:22px}.growth-columns article>span{color:#8dbbff;font-size:36px}.growth-columns h3{font-size:var(--type-h3);margin:20px 0 14px}.growth-columns p{color:var(--body);font-size:16px}.feedback-line{color:#accfff;border-top:1px solid #4d6b93;margin-top:40px;padding-top:26px;font-size:18px;line-height:1.8}
 .delivery-position .lead{max-width:1000px;margin:25px 0 30px}
-.solution-details{background:#fff}.solution-detail{display:grid;grid-template-columns:.7fr 1.3fr;gap:6%;padding:48px 0;border-top:1px solid #d4e2f1;scroll-margin-top:24px;align-items:start}.solution-robot{padding:24px;background:#f5f9ff;border-radius:18px;border:1px solid #e2eaf4;position:sticky;top:24px;text-align:center}.solution-robot strong{font-size:32px;display:block;margin:18px 0 8px}.solution-robot>span{font-size:15px;color:#687b90}.solution-robot .real-robot{border-radius:12px}.solution-detail-copy h2{font-size:var(--type-h2);line-height:1.35}.solution-detail-copy .lead{font-size:18px;margin-top:18px}.solution-feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:30px 0}.solution-feature-grid section{padding-top:18px;border-top:1px solid #d5e2f0}.solution-feature-grid h3{font-size:var(--type-h3);margin-bottom:10px}.solution-feature-grid p{font-size:16px}
+.solution-details{background:#fff}.solution-detail{display:grid;grid-template-columns:.7fr 1.3fr;gap:6%;padding:48px 0;border-top:1px solid #d4e2f1;scroll-margin-top:24px;align-items:start}.solution-robot{padding:24px;background:#f5f9ff;border-radius:18px;border:1px solid #e2eaf4;position:sticky;top:calc(var(--site-header-height) + 24px);text-align:center}.solution-robot strong{font-size:32px;display:block;margin:18px 0 8px}.solution-robot>span{font-size:15px;color:#687b90}.solution-robot .real-robot{border-radius:12px}.solution-detail-copy h2{font-size:var(--type-h2);line-height:1.35}.solution-detail-copy .lead{font-size:18px;margin-top:18px}.solution-feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin:30px 0}.solution-feature-grid section{padding-top:18px;border-top:1px solid #d5e2f0}.solution-feature-grid h3{font-size:var(--type-h3);margin-bottom:10px}.solution-feature-grid p{font-size:16px}
 .simulation-workflow{background:#edf5ff}.simulation-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0}.simulation-steps li{background:white;border:1px solid #d6e5f6;border-radius:13px;padding:25px 18px;min-width:0}.simulation-steps li>span{color:var(--blue);font-size:26px}.simulation-steps h3{font-size:var(--type-h3);margin:24px 0 14px;line-height:1.45}.simulation-steps p{font-size:16px}.simulation-result{margin-top:26px;padding:24px 30px;border-left:4px solid var(--blue);background:#ddeaff}.simulation-result strong{font-size:20px}.simulation-result p{margin-top:10px}
 .robot-specs{display:flex;gap:24px;flex-wrap:wrap;margin:20px 0;font-size:14px}.robot-specs div{display:grid;gap:7px}.robot-specs dt{color:var(--muted)}.robot-specs dd{margin:0;font-weight:600}
 @media(max-width:1100px){.editorial-section{padding:60px 5%}.value-grid,.discipline-grid{grid-template-columns:1fr 1fr}.simulation-steps{grid-template-columns:repeat(3,minmax(0,1fr))}.platform-overview{gap:5%}.platform-stack>div{padding:20px;gap:16px}}

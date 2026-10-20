@@ -793,3 +793,55 @@ strong,b{font-weight:600}
 @media(max-width:480px){
   .page-technology .chain{grid-template-columns:1fr}
 }
+
+/* Spacing refinement r31: compact comparison and a calmer about-page rhythm. */
+.page-products .comparison{padding-top:44px;padding-bottom:44px}
+.page-products .comparison>:is(.section-heading,.comparison-toolbar,.comparison-hint,.comparison-scroll,.comparison-note,.comparison-cta){width:100%;max-width:1280px;margin-left:auto;margin-right:auto}
+.page-products .comparison .section-heading{margin-bottom:18px}
+.page-products .comparison-toolbar{margin-top:20px;margin-bottom:12px}
+.page-products .comparison table{min-width:920px;font-size:16px;line-height:1.55}
+.page-products .comparison th,.page-products .comparison td{padding:13px 18px}
+.page-products .comparison th:first-child{width:170px}
+.page-products .comparison-note{margin-top:18px;padding:16px 20px}
+.page-products .comparison-cta{margin-top:16px;padding:20px 24px}
+
+.page-about .company-position{display:block;max-width:1080px;margin:0 auto;padding:24px 28px;border-radius:16px;box-shadow:none}
+.page-about .company-position>p{max-width:960px;margin:0 auto;text-wrap:balance}
+.page-about .company-engineering{padding-top:40px;padding-bottom:40px}
+.page-about .company-engineering .editorial-heading,.page-about .discipline-grid{max-width:1280px;margin-left:auto;margin-right:auto}
+.page-about .company-engineering .editorial-heading{margin-bottom:22px}
+.page-about .discipline-grid p{text-wrap:balance}
+.page-about .delivery-position{padding:48px max(5.25%,calc((100% - 1280px)/2));grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:48px}
+.page-about .delivery-copy{max-width:640px}
+.page-about .delivery-position .lead{max-width:620px;margin:16px 0 20px}
+.page-about .company-simulation{width:100%;max-width:560px;justify-self:end;padding:8px;border-radius:16px;box-shadow:0 6px 18px rgba(35,82,139,.04)}
+.page-about .company-simulation .art{border-radius:10px}
+.page-about .company-simulation figcaption{padding:10px 4px 2px}
+.page-about .vision-band{padding-top:36px;padding-bottom:36px}
+.page-about .vision-band .eyebrow{margin-bottom:8px}
+.page-about .vision-band>p:not(.eyebrow){max-width:720px;margin:12px auto 18px}
+
+@media(min-width:901px){
+  .page-about .discipline-grid article{padding-left:20px;padding-right:20px}
+  .page-about .discipline-grid article:first-child{padding-left:0}
+}
+@media(max-width:900px){
+  .page-about .delivery-position{padding:40px 5%;grid-template-columns:minmax(0,1fr);gap:24px}
+  .page-about .delivery-copy{max-width:none}
+  .page-about .company-simulation{max-width:520px;justify-self:center}
+}
+@media(max-width:760px){
+  .page-products .comparison{padding:32px 22px 40px}
+  .page-products .comparison table{min-width:850px}
+  .page-products .comparison th,.page-products .comparison td{padding:12px 14px}
+  .page-products .comparison th:first-child{width:120px}
+  .page-products .comparison-note{padding:16px}
+  .page-products .comparison-cta{padding:18px}
+  .page-about .company-position{margin-top:14px;padding:22px 20px}
+  .page-about .delivery-position{padding-left:22px;padding-right:22px}
+}
+@media(max-width:600px){
+  .page-about .company-engineering{padding-top:32px;padding-bottom:28px}
+  .page-about .company-engineering .editorial-heading{margin-bottom:20px}
+  .page-about .discipline-grid{gap:18px}
+}

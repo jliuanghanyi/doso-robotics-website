@@ -806,7 +806,7 @@ strong,b{font-weight:600}
 .page-products .comparison-cta{margin-top:16px;padding:20px 24px}
 
 .page-about .company-position{display:block;max-width:1080px;margin:0 auto;padding:24px 28px;border-radius:16px;box-shadow:none}
-.page-about .company-position>p{max-width:960px;margin:0 auto;text-wrap:balance}
+.page-about .company-position>p{max-width:960px;margin:0 auto;text-wrap:balance;text-align:center}
 .page-about .company-engineering{padding-top:40px;padding-bottom:40px}
 .page-about .company-engineering .editorial-heading,.page-about .discipline-grid{max-width:1280px;margin-left:auto;margin-right:auto}
 .page-about .company-engineering .editorial-heading{margin-bottom:22px}
@@ -838,6 +838,7 @@ strong,b{font-weight:600}
   .page-products .comparison-note{padding:16px}
   .page-products .comparison-cta{padding:18px}
   .page-about .company-position{margin-top:14px;padding:22px 20px}
+  .page-about .company-position>p{text-align:left;text-wrap:pretty}
   .page-about .delivery-position{padding-left:22px;padding-right:22px}
 }
 @media(max-width:600px){

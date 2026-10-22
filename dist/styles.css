@@ -985,3 +985,34 @@ strong,b{font-weight:600}
 @media(max-width:760px){.catalog-intro{padding:30px 22px 16px;grid-template-columns:1fr;gap:18px}.catalog-intro h1{font-size:32px}.catalog-intro-detail{justify-self:start}.catalog-intro-detail>p{font-size:16px}.catalog-products{padding:8px 22px 32px}.catalog-grid{grid-template-columns:1fr;gap:36px}.catalog-art{height:235px;padding-top:4px}.catalog-card-copy{padding-top:18px}.catalog-card-copy>p{min-height:0;margin-bottom:20px}.catalog-name{margin-bottom:10px}.catalog-name h2{font-size:28px}.catalog-card .stats dt{font-size:18px}.catalog-card .stats dd{font-size:14px}.catalog-applications{padding:32px 22px;gap:24px}.catalog-scene-grid{grid-template-columns:1fr 1fr}.catalog-scene{min-height:205px}.catalog-scene-note{text-align:left}}
 @media(max-width:380px){.catalog-card .stats{grid-template-columns:1fr;gap:8px}.catalog-card .stats>div{display:flex;align-items:baseline;justify-content:space-between;padding:0;border:0;gap:12px}.catalog-card .stats dd{margin:0;white-space:normal}}
 @media(prefers-reduced-motion:no-preference){.catalog-art .real-robot{transition:transform .2s}.catalog-art:hover .real-robot{transform:translateY(-3px)}}
+
+/* r38: specifications live with each robot; shared grid tracks keep fields aligned. */
+.catalog-controls{display:flex;align-items:center;flex-wrap:wrap;gap:16px 28px;padding:12px 0 24px;scroll-margin-top:120px}
+.catalog-expand{display:inline-flex;align-items:center;justify-content:space-between;gap:22px;border:1px solid #cbdcf0;border-radius:8px;background:#f5f9ff;color:#174e94;padding:10px 16px;min-height:46px;font:inherit;font-weight:500}
+.catalog-expand>span{font-size:23px;line-height:1}
+.catalog-controls .comparison-toggle{font-size:15px}
+.catalog-controls>p{font-size:14px;color:#64748b;margin-left:auto}
+.catalog-grid{row-gap:0;align-items:stretch}
+.catalog-card{display:grid;grid-template-rows:subgrid;grid-row:span 5}
+.catalog-card-copy{display:contents}
+.catalog-name{min-height:0;margin:0;padding:20px 0 12px;border-top:1px solid #e1e9f1}
+.catalog-card-copy>p{min-height:0;margin:0;padding-bottom:22px}
+.catalog-card .stats{margin:0;padding-bottom:16px;align-self:start}
+.catalog-grid.details-expanded .catalog-card{grid-row:span 11}
+.catalog-grid.details-expanded.differences-only .catalog-card{grid-row:span 10}
+.catalog-detail-specs{display:grid;grid-template-rows:subgrid;grid-row:span 6;margin:0;font-variant-numeric:tabular-nums}
+.differences-only .catalog-detail-specs{grid-row:span 5}
+.catalog-detail-specs[hidden],.catalog-detail-specs>[hidden]{display:none!important}
+.catalog-detail-specs>div{padding:14px 0;border-top:1px solid #e5ecf4;min-width:0}
+.catalog-detail-specs dt{font-size:14px;line-height:1.6;color:#64748b;margin-bottom:6px}
+.catalog-detail-specs dd{margin:0;font-size:16px;line-height:1.7;color:#263b55;overflow-wrap:break-word}
+.catalog-value-different .spec-value{background:#edf5ff;border-radius:4px;box-shadow:0 0 0 3px #edf5ff;color:#174e94}
+.catalog-detail-specs .comparison-unconfirmed{color:#64748b}
+.catalog-card-copy>.text-link{margin:6px 0 0;align-self:start;justify-self:start}
+.catalog-selection{padding:0 4.8% 38px;background:#fff}
+.catalog-selection .comparison-note{margin:0 0 24px;padding:20px 24px;background:#f6f9fd;border:0;border-radius:8px}
+.catalog-selection .comparison-note strong{font-size:17px}
+.catalog-selection .comparison-note p{font-size:15px;line-height:1.8;margin-top:6px}
+.catalog-selection .comparison-cta{padding:24px 0 0;border-top:1px solid #e1e9f1;margin:0;background:transparent}
+@media(max-width:1199px){.catalog-grid{row-gap:0}.catalog-card{margin-bottom:30px}.catalog-controls>p{flex-basis:100%;margin-left:0}.catalog-products{padding-bottom:12px}}
+@media(max-width:760px){.catalog-controls{gap:14px 20px;padding:12px 0 20px}.catalog-controls>p{font-size:13px}.catalog-expand{font-size:15px}.catalog-detail-specs>div{padding:12px 0}.catalog-selection{padding:0 22px 30px}.catalog-selection .comparison-note{padding:18px}.catalog-selection .comparison-cta{gap:18px}}

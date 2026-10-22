@@ -1,8 +1,7 @@
 let comparisonDifferencesOnly = false;
-let comparisonResizeObserver = null;
+let comparisonDetailsExpanded = false;
 function renderSite(options = {}) {
-comparisonResizeObserver?.disconnect();
-comparisonResizeObserver = null;
+
 function icon(i){const paths=[`<path d="M4 20V12h4v8m2 0V7h4v13m2 0V3h4v17M2 21h20"/>`,`<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/>`,`<path d="m12 2 9 5v10l-9 5-9-5V7Zm0 10L3 7m9 5 9-5m-9 5v10"/>`,`<path d="m9 3 1-2h4l1 2 3 2 2 0 2 4-1 2v3l1 2-2 4h-2l-3 2-1 1h-4l-1-1-3-2H4l-2-4 1-2v-3L2 9l2-4h2Z"/><circle cx="12" cy="12" r="4"/>`,`<circle cx="18" cy="4" r="3"/><circle cx="5" cy="12" r="3"/><circle cx="18" cy="20" r="3"/><path d="m8 10 7-4M8 14l7 4"/>`];return `<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[i]}</svg>`}
 const ROOT = options.root || document.documentElement.dataset.root || './';
 const EN = options.en ?? (document.documentElement.lang === 'en' || new URLSearchParams(location.search).get('lang') === 'en');
@@ -52,9 +51,9 @@ function formatSpec(value){
  return `<span class="spec-value"><span class="spec-number">${match[1]}</span>${match[2]==='°'?'':' '}<span class="spec-unit">${match[2]}</span></span>`;
 }
 const stats = p => `<dl class="stats">${p.spec.map((s,i)=>`<div><dt>${formatSpec(s)}</dt><dd>${[t('载荷','Payload'),t('续航时间','Runtime'),t('最大速度','Max speed')][i]}</dd></div>`).join('')}</dl>`;
-function productComparison(){
+function comparisonRows(){
  const focus=[t('课程实验、算法开发与轻量科研','Coursework, algorithm development and light research'),t('能源、交通与工业现场的复杂地形巡检','Complex-terrain inspection in energy, transport and industry'),t('较大载荷的科研与扩展设备搭载','Research with heavier payloads and additional equipment'),t('自主导航、识别、任务编排与远程运维','Navigation, recognition, task scheduling and remote operations')];
- const rows=[
+ return [
   [t('适用任务','Task focus'),focus],
   [t('载荷','Payload'),products.map(p=>p.spec[0]),true],
   [t('续航时间','Runtime'),products.map(p=>p.spec[1]),true],
@@ -65,14 +64,20 @@ function productComparison(){
   [t('可上台阶高度','Step height'),[t('请咨询确认','Please contact us to confirm'),'25 cm','25 cm','25 cm'],true,0],
   [t('开发支持','Development support'),products.map(()=>t('外设扩展与二次开发','External devices and custom development'))]
  ];
- const tableRows=rows.map(([label,values,numeric,unconfirmed])=>{
-  const different=new Set(values).size>1;
-  const counts=values.map(value=>values.filter(v=>v===value).length);
-  const commonCount=Math.max(...counts);
-  return `<tr data-comparison-row data-different="${different}"${comparisonDifferencesOnly&&!different?' hidden':''}><th scope="row">${label}</th>${values.map((value,i)=>`<td${i===unconfirmed?' class="comparison-unconfirmed"':numeric&&different&&(commonCount===1||counts[i]<commonCount)?' class="comparison-difference"':''}>${numeric?formatSpec(value):value}</td>`).join('')}</tr>`;
- }).join('');
- return `<section class="section comparison" id="compare"><div class="section-heading"><p class="eyebrow">COMPARE PLATFORMS</p><h2>${t('先看任务，再对比参数。','Start with your task. Compare the specifications.')}</h2><p class="lead">${t('教学开发看 Orix，复杂地形看 Thunder，重载科研看 Titan，一体化巡检看 Explorer。','Explore Orix for education, Thunder for complex terrain, Titan for heavier payloads and Explorer for integrated inspection.')}</p></div><div class="comparison-toolbar"><p id="comparison-status" role="status" aria-live="polite"></p><label class="comparison-toggle"><input id="comparison-differences" type="checkbox" role="switch" aria-controls="comparison-table"${comparisonDifferencesOnly?' checked':''}><span class="comparison-switch" aria-hidden="true"></span><span>${t('仅看差异','Only show differences')}</span></label></div><p class="comparison-hint" id="comparison-hint" hidden>${t('左右滑动表格，查看四款平台。','Scroll horizontally to compare all four platforms.')}</p><div class="comparison-scroll" role="region" aria-label="${t('四款机器人参数对比','Four-platform specification comparison')}" tabindex="0"><table id="comparison-table"><caption class="sr-only">${t('大算机器人选型对比','DOSO robot selection comparison')}</caption><thead><tr><th scope="col">${t('对比项目','Specification')}</th>${products.map(p=>`<th scope="col">${p.name}<small>${p.title}</small></th>`).join('')}</tr></thead><tbody>${tableRows}<tr><th scope="row">${t('产品详情','Product details')}</th>${products.map(p=>`<td><button class="text-link" data-product="${p.id}" aria-label="${t('查看','Explore')} ${p.name}">${t('查看详情','View details')} ↗</button></td>`).join('')}</tr></tbody></table></div><aside class="comparison-note"><strong>${t('Thunder 与 Explorer，怎么选？','Thunder or Explorer?')}</strong><p>${t('需要复杂地形通行与灵活扩展，选 Thunder；需要自主导航、识别、任务编排与远程运维的一体化巡检方案，选 Explorer。两款平台的尺寸、重量、载荷、续航与速度一致，选型重点在任务流程、传感器和软件配置。','Choose Thunder for complex terrain and flexible expansion. Choose Explorer for an integrated inspection solution with navigation, recognition, task scheduling and remote operations. Both share the same dimensions, weight, payload, runtime and speed; choose around your workflow, sensors and software configuration.')}</p></aside><div class="comparison-cta"><div><h3>${t('不确定哪款适合你的任务？','Not sure which robot fits your task?')}</h3><p>${t('整理场景、载荷与作业要求，明确选型需求。','Outline your site, payload and workflow to clarify what you need.')}</p></div>${btn(t('咨询选型','Get selection advice'),'contact.html')}</div></section>`;
 }
+function catalogSpecClass(row,i){
+ const [,values,numeric,unconfirmed]=row;
+ if(i===unconfirmed)return 'comparison-unconfirmed';
+ const counts=values.map(value=>values.filter(v=>v===value).length);
+ return numeric&&new Set(values).size>1&&(Math.max(...counts)===1||counts[i]<Math.max(...counts))?'catalog-value-different':'';
+}
+function catalogStats(i){return `<dl class="stats">${comparisonRows().slice(1,4).map(row=>`<div><dt class="${catalogSpecClass(row,i)}">${formatSpec(row[1][i])}</dt><dd>${row[0]}</dd></div>`).join('')}</dl>`;}
+function catalogDetails(i){
+ const rows=comparisonRows();
+ return `<dl class="catalog-detail-specs" id="specs-${products[i].id}"${comparisonDetailsExpanded?'':' hidden'}>${[...rows.slice(4),rows[0]].map(row=>`<div data-comparison-row data-different="${new Set(row[1]).size>1}"${comparisonDifferencesOnly&&new Set(row[1]).size===1?' hidden':''}><dt>${row[0]}</dt><dd class="${catalogSpecClass(row,i)}">${row[2]?formatSpec(row[1][i]):row[1][i]}</dd></div>`).join('')}</dl>`;
+}
+function catalogControls(){return `<div class="catalog-controls" id="compare"><button class="catalog-expand" id="catalog-expand" aria-expanded="${comparisonDetailsExpanded}" aria-controls="specs-orix specs-thunder specs-titan specs-explorer">${comparisonDetailsExpanded?t('收起详细参数','Hide detailed specifications'):t('展开详细参数','Show detailed specifications')} <span aria-hidden="true">${comparisonDetailsExpanded?'−':'+'}</span></button><label class="comparison-toggle"><input id="comparison-differences" type="checkbox" role="switch" aria-controls="catalog-grid"${comparisonDifferencesOnly?' checked':''}><span class="comparison-switch" aria-hidden="true"></span><span>${t('仅看差异','Only show differences')}</span></label><p id="comparison-status" role="status" aria-live="polite"></p></div>`;}
+function productComparison(){return `<section class="catalog-selection" aria-label="${t('选型建议','Selection advice')}"><aside class="comparison-note"><strong>${t('Thunder 与 Explorer，怎么选？','Thunder or Explorer?')}</strong><p>${t('需要复杂地形通行与灵活扩展，选 Thunder；需要自主导航、识别、任务编排与远程运维的一体化巡检方案，选 Explorer。两款平台的尺寸、重量、载荷、续航与速度一致，选型重点在任务流程、传感器和软件配置。','Choose Thunder for complex terrain and flexible expansion. Choose Explorer for an integrated inspection solution with navigation, recognition, task scheduling and remote operations. Both share the same dimensions, weight, payload, runtime and speed; choose around your workflow, sensors and software configuration.')}</p></aside><div class="comparison-cta"><div><h3>${t('不确定哪款适合你的任务？','Not sure which robot fits your task?')}</h3><p>${t('整理场景、载荷与作业要求，明确选型需求。','Outline your site, payload and workflow to clarify what you need.')}</p></div>${btn(t('咨询选型','Get selection advice'),'contact.html')}</div></section>`;}
 const btn = (text,href,secondary=false) => `<a class="button ${secondary?'secondary':''}" href="${url(href)}">${text}<span aria-hidden="true">↗</span></a>`;
 function header(){return `<header class="header site-header ${route==='index.html'?'home-header':''}"><a class="brand" href="${url('index.html')}" aria-label="${t('大算机器人首页','DOSO Home')}"><img src="${A}logo-blue.png" alt="DOSO robotics"></a><button class="menu-toggle" aria-expanded="false" aria-controls="nav" aria-label="${t('打开导航','Open navigation')}">☰</button><nav id="nav" aria-label="${t('主导航','Main navigation')}"><a class="home-nav ${route==='index.html'?'active':''}" href="${url('index.html')}"${route==='index.html'?' aria-current="page"':''}>${t('首页','Home')}</a><div class="product-nav"><a class="${route==='products.html'?'active':''}" href="${url('products.html')}">${t('产品','Products')}</a><div class="dropdown">${products.map(p=>`<a href="${url('products.html')}#${p.id}"><strong>${p.name}</strong><small>${p.title}</small></a>`).join('')}</div></div><a class="${route==='solutions.html'?'active':''}" href="${url('solutions.html')}">${t('解决方案','Solutions')}</a><a class="${route==='technology.html'?'active':''}" href="${url('technology.html')}">${t('技术','Technology')}</a><a class="${route==='about.html'?'active':''}" href="${url('about.html')}">${t('关于大算机器人','About DOSO')}</a><a class="mobile-nav-demo" href="${url('contact.html')}">${t('准备需求单','Prepare a brief')} <span aria-hidden="true">↗</span></a></nav><div class="header-actions"><div class="language" aria-label="Language"><a href="${languageUrl(false)}" class="${!EN?'selected':''}" lang="zh" data-language="zh" aria-label="切换为中文">中</a><a href="${languageUrl(true)}" class="${EN?'selected':''}" lang="en" data-language="en" aria-label="Switch to English">EN</a></div>${btn(t('准备需求单','Prepare a brief'),'contact.html')}</div></header>`}
 function footer(){return `<footer><a href="${url('index.html')}"><img src="${A}logo-blue.png" alt="DOSO robotics"></a><p>${t('让机器人理解任务，进入真实世界。','Intelligent robots for real-world tasks.')}</p><div><a href="${url('products.html')}">${t('产品','Products')}</a><a href="${url('technology.html')}">${t('技术','Technology')}</a><a href="${url('contact.html')}">${t('产品需求单','Project brief')}</a></div><small>© 2026 DOSO ROBOTICS</small></footer>`}
@@ -83,7 +88,7 @@ function matrix(){
   [t('重载科研','Heavy-duty research'),t('更大载荷与扩展空间，支持科研及设备搭载。','More payload and expansion capacity for research and additional equipment.')],
   [t('智能巡检','Intelligent inspection'),t('连接导航、异常识别、任务编排与远程运维。','Connect navigation, anomaly detection, task scheduling and remote operations.')]
  ];
- return `<section class="catalog-intro" id="products"><div><p class="eyebrow">ROBOT PLATFORMS</p><h1>${t('找到适合任务的机器人。','Find the right robot for your task.')}</h1></div><div class="catalog-intro-detail"><p>${t('四款平台，从教育开发到现场巡检，按任务需求选择。','Four platforms for education, research and field inspection.')}</p><a class="text-link catalog-compare-link" href="#compare">${t('对比产品参数','Compare specifications')} <span aria-hidden="true">↓</span></a></div></section><section class="catalog-products" aria-label="${t('产品介绍','Our robots')}"><div class="catalog-grid">${products.map((p,i)=>`<article class="catalog-card" id="${p.id}"><button class="catalog-art" data-product="${p.id}" aria-label="${t('了解','Explore')} ${p.name}">${robotArt(p,true).replace('<svg viewBox','<svg preserveAspectRatio="xMidYMax meet" viewBox')}</button><div class="catalog-card-copy"><div class="catalog-name"><h2>${p.name}</h2><h3>${summaries[i][0]}</h3></div><p>${summaries[i][1]}</p>${stats(p)}<button class="text-link" data-product="${p.id}">${t('了解产品','Explore product')} <span aria-hidden="true">↗</span></button></div></article>`).join('')}</div></section>`;
+ return `<section class="catalog-intro" id="products"><div><p class="eyebrow">ROBOT PLATFORMS</p><h1>${t('找到适合任务的机器人。','Find the right robot for your task.')}</h1></div><div class="catalog-intro-detail"><p>${t('四款平台，从教育开发到现场巡检，按任务需求选择。','Four platforms for education, research and field inspection.')}</p><a class="text-link catalog-compare-link" href="#compare">${t('对比产品参数','Compare specifications')} <span aria-hidden="true">↓</span></a></div></section><section class="catalog-products" aria-label="${t('产品介绍','Our robots')}">${catalogControls()}<div class="catalog-grid${comparisonDetailsExpanded?' details-expanded':''}${comparisonDifferencesOnly?' differences-only':''}" id="catalog-grid">${products.map((p,i)=>`<article class="catalog-card" id="${p.id}"><button class="catalog-art" data-product="${p.id}" aria-label="${t('了解','Explore')} ${p.name}">${robotArt(p,true).replace('<svg viewBox','<svg preserveAspectRatio="xMidYMax meet" viewBox')}</button><div class="catalog-card-copy"><div class="catalog-name"><h2>${p.name}</h2><h3>${summaries[i][0]}</h3></div><p>${summaries[i][1]}</p>${catalogStats(i)}${catalogDetails(i)}<button class="text-link" data-product="${p.id}">${t('了解产品','Explore product')} <span aria-hidden="true">↗</span></button></div></article>`).join('')}</div></section>`;
 }
 function catalogApplications(){
  const applications=[
@@ -151,7 +156,7 @@ return `<section class="solution-hero section"><div><p class="eyebrow">SOLUTIONS
 function contact(){return `<section class="section contact"><div><p class="eyebrow">LET’S BUILD SOMETHING REAL</p><h1>${t('整理产品与场景需求。','Prepare your project brief.')}</h1><p class="lead">${t('填写应用场景、关注产品与联系方式，生成一份可下载的需求单。','Describe your application, product interests and contact details to create a downloadable brief.')}</p><p class="contact-note">${t('本页尚未开通在线提交。需求单仅供下载，不会自动发送或预约。','Online submission is not yet available. This form downloads a brief; it does not send a request or book a demo.')}</p></div><form id="demo-form"><h2>${t('产品与方案需求单','Product and solution brief')}</h2><label>${t('姓名','Name')}<input name="name" autocomplete="name" required maxlength="80"></label><label>${t('公司 / 机构','Company / institution')}<input name="company" autocomplete="organization" required maxlength="120"></label><label>${t('邮箱或电话','Email or phone')}<input name="contact" required maxlength="120"></label><label>${t('关注产品','Product of interest')}<select name="product"><option value="">${t('暂不确定，请协助选型','Help me choose')}</option>${products.map(p=>`<option value="${p.id}">${p.name}</option>`).join('')}</select></label><label>${t('任务与场景','Task and scenario')}<textarea name="task" rows="4" required maxlength="2000" placeholder="${t('例如：工业园区巡检、设备识别、科研开发……','Describe your task and environment…')}"></textarea></label><button class="button" type="submit">${t('生成并下载需求单','Download your brief')} <span>↓</span></button><p id="form-status" role="status"></p></form></section>`}
 document.documentElement.lang=EN?'en':'zh-CN';
 document.documentElement.dataset.page=route;
-document.documentElement.dataset.version='20261022-r37';
+document.documentElement.dataset.version='20261022-r38';
 const pageTitles={'index.html':t('首页','Home'),'products.html':t('产品矩阵','Product matrix'),'technology.html':t('技术能力与系统架构','Technology & architecture'),'about.html':t('关于大算机器人','About DOSO'),'solutions.html':t('解决方案','Solutions'),'contact.html':t('产品与方案需求单','Prepare a project brief')};
 const metadata=typeof SITE_METADATA!=='undefined'?SITE_METADATA[route.replace('.html','')][EN?'en':'zh']:null;
 document.title=metadata?.title||'DOSO Robotics｜'+pageTitles[route];
@@ -168,25 +173,23 @@ if(metadata){
 }
 const comparisonToggle=document.getElementById('comparison-differences');
 if(comparisonToggle){
+ const expand=document.getElementById('catalog-expand');
  const syncComparison=()=>{
-  comparisonDifferencesOnly=comparisonToggle.checked;
-  const rows=[...document.querySelectorAll('[data-comparison-row]')];
-  rows.forEach(row=>{row.hidden=comparisonDifferencesOnly&&row.dataset.different==='false';});
-  const visible=rows.filter(row=>!row.hidden).length;
-  const hidden=rows.length-visible;
-  document.getElementById('comparison-status').textContent=comparisonDifferencesOnly
-   ? t(`显示 ${visible} 项差异${hidden?`，已收起 ${hidden} 项共同能力`:'，当前各项均有差异'}。`,`${visible} differences shown${hidden?`; ${hidden} shared ${hidden===1?'feature':'features'} hidden`:'. All features differ'}.`)
-   : t(`显示全部 ${rows.length} 项，浅蓝突出差异参数。`,`All ${rows.length} features shown. Blue highlights distinct specifications.`);
-  syncComparisonOverflow();
+  const grid=document.getElementById('catalog-grid');
+  grid.classList.toggle('details-expanded',comparisonDetailsExpanded);
+  grid.classList.toggle('differences-only',comparisonDifferencesOnly);
+  expand.setAttribute('aria-expanded',String(comparisonDetailsExpanded));
+  expand.innerHTML=(comparisonDetailsExpanded?t('收起详细参数','Hide detailed specifications'):t('展开详细参数','Show detailed specifications'))+` <span aria-hidden="true">${comparisonDetailsExpanded?'−':'+'}</span>`;
+  document.querySelectorAll('.catalog-detail-specs').forEach(group=>group.hidden=!comparisonDetailsExpanded);
+  document.querySelectorAll('[data-comparison-row]').forEach(row=>row.hidden=comparisonDifferencesOnly&&row.dataset.different==='false');
+  document.getElementById('comparison-status').textContent=!comparisonDetailsExpanded
+   ?t('每款显示 3 项关键参数。','3 key specifications per robot.')
+   :comparisonDifferencesOnly?t('显示 8 项差异，已收起 1 项共同能力。','8 differences shown; 1 shared feature hidden.')
+   :t('显示全部 9 项，浅蓝突出差异参数。','All 9 features shown. Blue highlights distinct specifications.');
  };
- comparisonToggle.addEventListener('change',syncComparison);
+ expand.addEventListener('click',()=>{comparisonDetailsExpanded=!comparisonDetailsExpanded;if(!comparisonDetailsExpanded){comparisonDifferencesOnly=false;comparisonToggle.checked=false;}syncComparison();});
+ comparisonToggle.addEventListener('change',()=>{comparisonDifferencesOnly=comparisonToggle.checked;if(comparisonDifferencesOnly)comparisonDetailsExpanded=true;syncComparison();});
  syncComparison();
- if(typeof ResizeObserver!=='undefined'){
-  comparisonResizeObserver=new ResizeObserver(syncComparisonOverflow);
-  comparisonResizeObserver.observe(document.querySelector('.comparison-scroll'));
-  comparisonResizeObserver.observe(document.getElementById('comparison-table'));
- }
- requestAnimationFrame(syncComparisonOverflow);
 }
 const dialog=document.getElementById('product-dialog');
 document.querySelectorAll('[data-product]').forEach(b=>b.addEventListener('click',()=>{const p=products.find(p=>p.id===b.dataset.product);document.getElementById('product-detail').innerHTML=`${robotArt(p)}<div><p class="eyebrow">DOSO / ${p.name.toUpperCase()}</p><h2>${p.name}</h2><h3>${p.title}</h3><p>${p.desc}</p>${stats(p)}<dl class="robot-specs"><div><dt>${t('机身重量','Robot weight')}</dt><dd>${formatSpec(p.weight)}</dd></div><div><dt>${t('尺寸','Dimensions')}</dt><dd>${formatSpec(p.size)}</dd></div></dl><p class="fineprint">${t('载荷与机身重量分别列示。请根据任务需求确认产品配置与适用条件。','Payload and robot weight are listed separately. Confirm the configuration and operating conditions for your task.')}</p>${btn(t('整理该产品需求','Prepare a product brief'),'contact.html?product='+p.id)}</div>`;dialog.showModal()}));

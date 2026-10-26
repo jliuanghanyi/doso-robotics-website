@@ -1047,3 +1047,27 @@ strong,b{font-weight:600}
 @media(max-width:1199px){.catalog-card{column-gap:32px}.catalog-art{padding:16px 8px;height:300px}.catalog-controls>p{flex-basis:auto;margin-left:auto}.catalog-card .stats>div{padding:0 12px}.catalog-card .stats dt{font-size:20px}}
 @media(max-width:760px){.catalog-card{grid-template-columns:minmax(0,1fr);gap:20px;padding:28px 0 30px}.catalog-art{height:245px;padding:0 20px}.catalog-art .real-robot{max-width:360px}.catalog-card-copy{padding:0}.catalog-name h2{font-size:30px}.catalog-name h3{font-size:18px}.catalog-card-copy>p{font-size:16px;margin-bottom:20px}.catalog-card .stats dt{font-size:19px}.catalog-card .stats>div{padding:0 10px}.catalog-controls>p{flex-basis:100%;margin-left:0}.catalog-detail-specs{column-gap:20px}.catalog-detail-specs dd{font-size:15px}.catalog-actions{gap:24px}}
 @media(max-width:380px){.catalog-card .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:0}.catalog-card .stats dt{font-size:17px}.catalog-card .stats dd{font-size:13px}.catalog-card .stats>div{padding:0 8px;border-right:1px solid #e1e9f1}.catalog-card .stats>div:last-child{border:0;padding-right:0}.catalog-detail-specs,.differences-only .catalog-detail-specs{grid-template-columns:1fr}.catalog-art{height:220px}}
+
+/* r41: quieter supporting surfaces; diagrams and product imagery remain intact. */
+html:lang(zh-CN) .eyebrow,html:lang(zh-CN) .hero-kicker{letter-spacing:.04em}
+.page-index .platform-overview{background:#f6f8fa;border-top:1px solid #e8edf2;border-bottom:1px solid #e8edf2}
+.page-index .home-vision,.page-about .vision-band,.delivery-cta{background:#f4f7fa}
+.page-index .home-vision-action{border-color:#dce3eb}
+.page-index .hero-kicker{font-size:14px;line-height:1.5;margin-bottom:20px}
+.page-index .fleet-copy>p:not(.eyebrow){max-width:560px;font-size:16px;line-height:1.75}
+.page-about .growth-story{background:#f5f7fa}
+.page-about .growth-story:after{display:none}
+.page-about .company-position{background:transparent;border:0;border-radius:0;padding-inline:0}
+.page-about .company-position>p{text-align:left;text-wrap:initial}
+.page-about .company-simulation{padding:0;border-radius:8px;box-shadow:none}
+.page-about .company-simulation .art{border-radius:8px}
+.page-technology .tech-screen{background:#f6f8fb}
+.page-technology .chain-card{border-radius:8px;box-shadow:none}
+.page-technology .layer-shelf{background:#f4f7fb;box-shadow:none}
+.page-technology .wheel-center{box-shadow:none}
+.page-technology .wheel-node{box-shadow:none}
+.page-technology .wheel-node:hover,.page-technology .wheel-node:is(.current,[aria-pressed="true"]){box-shadow:none}
+.solutions-grid article{border-radius:8px;box-shadow:none}
+.contact form{border-radius:10px;box-shadow:none}
+.delivery-cta h2 span,.delivery-section h2 span{color:inherit}
+@media(max-width:760px){.page-index .fleet-copy>p:not(.eyebrow){font-size:16px}.page-about .company-position{padding-inline:0}.page-technology .wheel-center{box-shadow:none}}

@@ -1,5 +1,0 @@
-.openai/*.tmp
-*.tar
-*.zip
-output/
-__pycache__/

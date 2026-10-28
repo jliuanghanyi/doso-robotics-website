@@ -3,3 +3,18 @@
 *.zip
 output/
 __pycache__/
+
+# Keep local production notes and backups out of the public repository.
+private-notes/
+local-backups/
+QA-*.md
+QA-RESULTS.json
+ASSETS-*.md
+docs/image-prompts-*.json
+docs/product-image-prompts-*.json
+docs/image-audit-*.md
+docs/product-images-*.md
+!docs/product-images-r19.md
+.env
+.env.*
+!.env.example

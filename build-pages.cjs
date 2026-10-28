@@ -45,3 +45,14 @@ for(const lang of ['','en/']){
  const bodies=Object.keys(pages).map(p=>fs.readFileSync(path.join(dist,lang,p+'.html'),'utf8'));
  assert.equal(new Set(bodies).size,6);
 }
+
+// Remove superseded artifacts only after all pages have been built successfully.
+const activeAssets=new Set([appAsset,cssAsset]);
+let removedAssets=0;
+for(const entry of fs.readdirSync(dist,{withFileTypes:true})){
+  if(entry.isFile() && /^(?:app\.[0-9a-f]{12}\.js|styles\.[0-9a-f]{12}\.css)$/.test(entry.name) && !activeAssets.has(entry.name)){
+    fs.unlinkSync(path.join(dist,entry.name));
+    removedAssets++;
+  }
+}
+console.log(`Removed ${removedAssets} superseded fingerprinted assets; current assets and editable sources retained.`);

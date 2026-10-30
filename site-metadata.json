@@ -12,21 +12,21 @@
   "products": {
     "zh": {
       "title": "机器人选型与参数对比 | 大算机器人",
-      "description": "对比 Orix、Thunder、Titan 与 Explorer 四款四足机器人的载荷、续航、运动能力与应用定位，按教育开发、复杂地形巡检或重载科研需求选型。"
+      "description": "对比 DOSO R1、DOSO R2、DOSO R3 与 DOSO R4 四款四足机器人的载荷、续航、运动能力与应用定位，按教育开发、复杂地形巡检或重载科研需求选型。"
     },
     "en": {
-      "title": "Compare Orix, Thunder, Titan & Explorer | DOSO Robotics",
-      "description": "Compare payload, runtime, mobility and applications across Orix, Thunder, Titan and Explorer for education, research and industrial inspection."
+      "title": "Compare DOSO R1, R2, R3 & R4 | DOSO Robotics",
+      "description": "Compare payload, runtime, mobility and applications across DOSO R1, DOSO R2, DOSO R3 and DOSO R4 for education, research and industrial inspection."
     }
   },
   "solutions": {
     "zh": {
       "title": "教育科研与智能巡检解决方案 | 大算机器人",
-      "description": "了解 Orix 教育开发与 Explorer 智能巡检方案。从课程、SDK 与仿真，到导航、任务编排和远程运维，按现场任务配置机器人与软件。"
+      "description": "了解 DOSO R1 教育开发与 DOSO R4 智能巡检方案。从课程、SDK 与仿真，到导航、任务编排和远程运维，按现场任务配置机器人与软件。"
     },
     "en": {
       "title": "Education & Inspection Solutions | DOSO Robotics",
-      "description": "Explore Orix for teaching and development, and Explorer for inspection workflows connecting navigation, task scheduling and remote operations."
+      "description": "Explore DOSO R1 for teaching and development, and DOSO R4 for inspection workflows connecting navigation, task scheduling and remote operations."
     }
   },
   "technology": {

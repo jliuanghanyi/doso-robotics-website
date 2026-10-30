@@ -45,5 +45,5 @@ for f,page in docs.items():
     links+=len(page.links);assets+=len(page.assets)
     if f.stem == 'products':
         body=''.join(page.text)
-        for value in ('Orix','Thunder','Titan','Explorer','8–10 kg','25–30 kg','40–60 kg','2–4 h','3–5 h','8 h','3.7 m/s','5 m/s'):assert value in body,value
+        for value in ('DOSO R1','DOSO R2','DOSO R3','DOSO R4','8–10 kg','25–30 kg','40–60 kg','2–4 h','3–5 h','8 h','3.7 m/s','5 m/s'):assert value in body,value
 print(f'PASS: {len(docs)} localized documents, {links} links, {assets} asset references, fingerprints, anchors, product specifications.')

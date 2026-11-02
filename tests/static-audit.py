@@ -6,6 +6,8 @@ import re
 
 ROOT=Path(__file__).resolve().parents[1]/'dist'
 PAGES=('index','products','solutions','technology','about','contact')
+ICP_NUMBER='沪ICP备2025116222号-2'
+ICP_URL='https://beian.miit.gov.cn/'
 class Page(HTMLParser):
     def __init__(self,filename):
         super().__init__();self.filename=filename;self.ids=set();self.links=[];self.assets=[];self.text=[];self.attrs={}
@@ -28,7 +30,8 @@ for prefix in ('','en/'):
         assert page.attrs['lang']==('en' if prefix else 'zh-CN')
         assert 'main' in page.ids
         assert any('/en/' in '/'+link for link in page.links)
-        if prefix:assert not re.search('[\u4e00-\u9fff]',''.join(page.text).replace('中','')),f'Untranslated text: {f}'
+        assert ''.join(page.text).count(ICP_NUMBER)==1 and page.links.count(ICP_URL)==1,f'ICP footer missing or duplicated: {f}'
+        if prefix:assert not re.search('[\u4e00-\u9fff]',''.join(page.text).replace('中','').replace(ICP_NUMBER,'')),f'Untranslated text: {f}'
         scripts=[a for a in page.assets if a.endswith('.js')]
         assert len(scripts)==1 and re.search(r'app\.[0-9a-f]{12}\.js$',scripts[0]),'Script must have content fingerprint'
         assert any(re.search(r'styles\.[0-9a-f]{12}\.css$',a) for a in page.assets)
@@ -36,6 +39,7 @@ for prefix in ('','en/'):
 links=assets=0
 for f,page in docs.items():
     for ref in page.links+page.assets:
+        if ref==ICP_URL:continue
         u=urlsplit(ref)
         assert not u.scheme and not u.netloc, f'Unexpected external resource: {ref}'
         target=(f.parent/unquote(u.path)).resolve() if u.path else f

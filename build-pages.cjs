@@ -36,7 +36,7 @@ for(const [page,titles] of Object.entries(pages))for(const en of [false,true]){
  const expectedLangLink=en?`${root}${page}.html?lang=zh`:`${root}en/${page}.html?lang=en`;
  assert.ok(html.includes(`href="${expectedLangLink}"`));
  if(page!=='index')assert.ok(!html.includes('class="hero"'),'Only the homepage may render the homepage hero');
- if(en)assert.ok(!/[\u4e00-\u9fff]/.test(html.replace(/aria-label="切换为中文"/g,'').replace(/>中</g,'><')),'English page should not retain Chinese interface copy');
+ if(en)assert.ok(!/[\u4e00-\u9fff]/.test(html.replace(/aria-label="切换为中文"/g,'').replace(/>中</g,'><').replace(/<a class="icp-link"[^>]*>[^<]*<\/a>/g,'')),'English page should not retain Chinese interface copy apart from the legal ICP number');
  console.log(`PASS ${en?'en/':''}${page}.html: distinct pre-rendered page, explicit language link, normalized URL safe`);
 }
 fs.writeFileSync(path.join(dist,'robots.txt'),`User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`);

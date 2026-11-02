@@ -1,0 +1,19 @@
+{
+  "Version": "1",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Federated": ["acs:ram::ACCOUNT_ID:oidc-provider/DOSOGitHubActions"]
+      },
+      "Condition": {
+        "StringEquals": {
+          "oidc:iss": "https://token.actions.githubusercontent.com",
+          "oidc:aud": "sts.aliyuncs.com",
+          "oidc:sub": "repo:jliuanghanyi/doso-robotics-website:ref:refs/heads/main"
+        }
+      }
+    }
+  ]
+}

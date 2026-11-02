@@ -1,0 +1,24 @@
+{
+  "Version": "1",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["oss:PutObject", "oss:DeleteObject"],
+      "Resource": "acs:oss:*:*:doso-robotics-site/.well-known/acme-challenge/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "oss:PutCname",
+      "Resource": "acs:oss:*:*:doso-robotics-site"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "yundun-cert:DescribeSSLCertificatePrivateKey",
+        "yundun-cert:DescribeSSLCertificatePublicKeyDetail",
+        "yundun-cert:CreateSSLCertificate"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

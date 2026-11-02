@@ -1,6 +1,6 @@
 # 大算机器人网站
 
-网站入口：[打开中文网站](https://jliuanghanyi.github.io/doso-robotics-website/index.html?lang=zh)。
+网站入口：[打开中文网站](https://www.dosorobotics.com/index.html?lang=zh)。
 
 本仓库公开，包含可继续编辑和构建的中英文静态网站。
 

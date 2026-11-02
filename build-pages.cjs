@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const dist=path.join(__dirname,'dist');
 const metadata=require('./site-metadata.json');
-const origin='https://doso-reference-oct10.helen668401.chatgpt.site';
+const origin='https://www.dosorobotics.com';
 const code=`const SITE_METADATA=${JSON.stringify(metadata)};\nconst SITE_ORIGIN=${JSON.stringify(origin)};\n`+fs.readFileSync(path.join(dist,'app.js'),'utf8');
 const {createHash}=require('node:crypto');
 const fingerprint=(source,ext)=>{const name=`${ext==='js'?'app':'styles'}.${createHash('sha256').update(source).digest('hex').slice(0,12)}.${ext}`;fs.writeFileSync(path.join(dist,name),source);return name;};

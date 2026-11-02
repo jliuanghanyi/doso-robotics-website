@@ -44,7 +44,13 @@ def live_certificate() -> dict:
 
 
 def due(days: int, force: bool) -> int:
-    current = live_certificate()
+    try:
+        current = live_certificate()
+    except ssl.SSLCertVerificationError:
+        # An expired or otherwise invalid live certificate must not block recovery.
+        print("LIVE_CERT_VALIDATION=failed")
+        print("RENEWAL_DUE=yes")
+        return 0
     remaining = current["expires"] - dt.datetime.now(dt.timezone.utc)
     print(f"LIVE_CERT_EXPIRES_UTC={current['expires'].isoformat()}")
     print(f"DAYS_REMAINING={remaining.total_seconds() / 86400:.1f}")
@@ -87,9 +93,12 @@ def auth() -> None:
         ossutil("cp", str(source), f"oss://{BUCKET}/{CHALLENGE_PREFIX}{token}")
 
     url = f"http://{DOMAIN}/{CHALLENGE_PREFIX}{token}"
+    # HTTP-01 may redirect to an HTTPS endpoint whose old certificate has
+    # expired. Match the exact challenge body; the CA validates independently.
+    challenge_context = ssl._create_unverified_context()
     for attempt in range(20):
         try:
-            with urllib.request.urlopen(url, timeout=15) as response:
+            with urllib.request.urlopen(url, timeout=15, context=challenge_context) as response:
                 actual = response.read(2049).decode("ascii")
             if actual == validation:
                 print("ACME_CHALLENGE_PUBLIC=verified")
